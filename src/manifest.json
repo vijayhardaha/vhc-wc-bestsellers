@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "frontend.js": {
+      "files": [
+        "js/frontend.js"
+      ]
+    },
+    "frontend.css": {
+      "files": [
+        "css/frontend.scss"
+      ]
+    },
+    "admin.js": {
+      "files": [
+        "js/admin.js"
+      ]
+    },
+    "admin.css": {
+      "files": [
+        "css/admin.scss"
+      ]
+    }
+  },
+  "paths": {
+    "source": "src/",
+    "dist": "assets/"
+  }
+}
