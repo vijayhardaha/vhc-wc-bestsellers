@@ -2,7 +2,7 @@
 /**
  * VHC WooCommerce Bestsellers Products setup
  *
- * @package VHC_WC_Bestsellers_Products
+ * @package VHC_WC_Bestsellers
  * @since 1.0.0
  */
 
@@ -10,15 +10,15 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Main VHC_WC_Bestsellers_Products Class.
+ * Main VHC_WC_Bestsellers Class.
  *
- * @class VHC_WC_Bestsellers_Products
+ * @class VHC_WC_Bestsellers
  */
-final class VHC_WC_Bestsellers_Products {
+final class VHC_WC_Bestsellers {
 	/**
 	 * This class instance.
 	 *
-	 * @var VHC_WC_Bestsellers_Products single instance of this class.
+	 * @var VHC_WC_Bestsellers single instance of this class.
 	 * @since 1.0.0
 	 */
 	private static $instance;
@@ -45,12 +45,12 @@ final class VHC_WC_Bestsellers_Products {
 	);
 
 	/**
-	 * Main VHC_WC_Bestsellers_Products Instance.
+	 * Main VHC_WC_Bestsellers Instance.
 	 *
-	 * Ensures only one instance of VHC_WC_Bestsellers_Products is loaded or can be loaded.
+	 * Ensures only one instance of VHC_WC_Bestsellers is loaded or can be loaded.
 	 *
 	 * @since 1.0.0
-	 * @return VHC_WC_Bestsellers_Products - Main instance.
+	 * @return VHC_WC_Bestsellers - Main instance.
 	 */
 	public static function instance() {
 		if ( is_null( self::$instance ) ) {
@@ -60,14 +60,14 @@ final class VHC_WC_Bestsellers_Products {
 	}
 
 	/**
-	 * VHC_WC_Bestsellers_Products Constructor.
+	 * VHC_WC_Bestsellers Constructor.
 	 *
 	 * @since 1.0.0
 	 */
 	public function __construct() {
 		$this->define_constants();
 
-		register_activation_hook( VHC_WC_BESTSELLERS_PRODUCTS_PLUGIN_FILE, array( $this, 'activation_check' ) );
+		register_activation_hook( VHC_WC_BESTSELLERS_PLUGIN_FILE, array( $this, 'activation_check' ) );
 
 		register_shutdown_function( array( $this, 'log_errors' ) );
 
@@ -109,7 +109,7 @@ final class VHC_WC_Bestsellers_Products {
 		if ( $error && in_array( $error['type'], array( E_ERROR, E_PARSE, E_COMPILE_ERROR, E_USER_ERROR, E_RECOVERABLE_ERROR ), true ) ) {
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
 				/* translators: 1: error message 2: file name and path 3: line number */
-				$error_message = sprintf( __( '%1$s in %2$s on line %3$s', 'vhc-wc-bestsellers-products' ), $error['message'], $error['file'], $error['line'] ) . PHP_EOL;
+				$error_message = sprintf( __( '%1$s in %2$s on line %3$s', 'vhc-wc-bestsellers' ), $error['message'], $error['file'], $error['line'] ) . PHP_EOL;
 				// phpcs:disable WordPress.PHP.DevelopmentFunctions
 				error_log( $error_message );
 				// phpcs:enable WordPress.PHP.DevelopmentFunctions
@@ -123,13 +123,13 @@ final class VHC_WC_Bestsellers_Products {
 	 * @since 1.0.0
 	 */
 	private function define_constants() {
-		$plugin_data = get_plugin_data( VHC_WC_BESTSELLERS_PRODUCTS_PLUGIN_FILE );
-		$this->define( 'VHC_WC_BESTSELLERS_PRODUCTS_ABSPATH', dirname( VHC_WC_BESTSELLERS_PRODUCTS_PLUGIN_FILE ) . '/' );
-		$this->define( 'VHC_WC_BESTSELLERS_PRODUCTS_PLUGIN_BASENAME', plugin_basename( VHC_WC_BESTSELLERS_PRODUCTS_PLUGIN_FILE ) );
-		$this->define( 'VHC_WC_BESTSELLERS_PRODUCTS_PLUGIN_NAME', $plugin_data['Name'] );
-		$this->define( 'VHC_WC_BESTSELLERS_PRODUCTS_VERSION', $plugin_data['Version'] );
-		$this->define( 'VHC_WC_BESTSELLERS_PRODUCTS_MIN_PHP_VERSION', $plugin_data['RequiresPHP'] );
-		$this->define( 'VHC_WC_BESTSELLERS_PRODUCTS_MIN_WP_VERSION', $plugin_data['RequiresWP'] );
+		$plugin_data = get_plugin_data( VHC_WC_BESTSELLERS_PLUGIN_FILE );
+		$this->define( 'VHC_WC_BESTSELLERS_ABSPATH', dirname( VHC_WC_BESTSELLERS_PLUGIN_FILE ) . '/' );
+		$this->define( 'VHC_WC_BESTSELLERS_PLUGIN_BASENAME', plugin_basename( VHC_WC_BESTSELLERS_PLUGIN_FILE ) );
+		$this->define( 'VHC_WC_BESTSELLERS_PLUGIN_NAME', $plugin_data['Name'] );
+		$this->define( 'VHC_WC_BESTSELLERS_VERSION', $plugin_data['Version'] );
+		$this->define( 'VHC_WC_BESTSELLERS_MIN_PHP_VERSION', $plugin_data['RequiresPHP'] );
+		$this->define( 'VHC_WC_BESTSELLERS_MIN_WP_VERSION', $plugin_data['RequiresWP'] );
 	}
 
 	/**
@@ -182,9 +182,9 @@ final class VHC_WC_Bestsellers_Products {
 					/* translators: %s Plugin Name */
 					esc_html__(
 						'%1$s could not be activated. %2$s',
-						'vhc-wc-bestsellers-products'
+						'vhc-wc-bestsellers'
 					),
-					esc_html( VHC_WC_BESTSELLERS_PRODUCTS_PLUGIN_NAME ),
+					esc_html( VHC_WC_BESTSELLERS_PLUGIN_NAME ),
 					esc_html( $this->get_environment_message() )
 				)
 			);
@@ -197,15 +197,15 @@ final class VHC_WC_Bestsellers_Products {
 	 * @since 1.0.0
 	 */
 	public function check_environment() {
-		if ( ! $this->is_environment_compatible() && is_plugin_active( VHC_WC_BESTSELLERS_PRODUCTS_PLUGIN_BASENAME ) ) {
+		if ( ! $this->is_environment_compatible() && is_plugin_active( VHC_WC_BESTSELLERS_PLUGIN_BASENAME ) ) {
 			$this->deactivate_plugin();
 			$this->add_admin_notice(
 				'bad_environment',
 				'error',
 				sprintf(
 					/* translators: %s Plugin Name */
-					__( '%s has been deactivated.', 'vhc-wc-bestsellers-products' ),
-					VHC_WC_BESTSELLERS_PRODUCTS_PLUGIN_NAME
+					__( '%s has been deactivated.', 'vhc-wc-bestsellers' ),
+					VHC_WC_BESTSELLERS_PLUGIN_NAME
 				) . ' ' . $this->get_environment_message()
 			);
 		}
@@ -223,9 +223,9 @@ final class VHC_WC_Bestsellers_Products {
 				'error',
 				sprintf(
 					/* translators: 1: Plugin Name 2: Minimum WP Version 3: Update Url */
-					__( '%1$s requires WordPress version %2$s or higher. Please %3$supdate WordPress &raquo;%4$s', 'vhc-wc-bestsellers-products' ),
-					VHC_WC_BESTSELLERS_PRODUCTS_PLUGIN_NAME,
-					VHC_WC_BESTSELLERS_PRODUCTS_MIN_WP_VERSION,
+					__( '%1$s requires WordPress version %2$s or higher. Please %3$supdate WordPress &raquo;%4$s', 'vhc-wc-bestsellers' ),
+					VHC_WC_BESTSELLERS_PLUGIN_NAME,
+					VHC_WC_BESTSELLERS_MIN_WP_VERSION,
 					'<a href="' . esc_url( admin_url( 'update-core.php' ) ) . '">',
 					'</a>'
 				)
@@ -239,8 +239,8 @@ final class VHC_WC_Bestsellers_Products {
 				'error',
 				sprintf(
 					/* translators: 1: Plugin Name 2: Required Plugins Names */
-					__( '%1$s  is enabled but not effective. It requires %2$s in order to work.', 'vhc-wc-bestsellers-products' ),
-					VHC_WC_BESTSELLERS_PRODUCTS_PLUGIN_NAME,
+					__( '%1$s  is enabled but not effective. It requires %2$s in order to work.', 'vhc-wc-bestsellers' ),
+					VHC_WC_BESTSELLERS_PLUGIN_NAME,
 					join( ', ', $missing_dependencies )
 				)
 			);
@@ -285,10 +285,10 @@ final class VHC_WC_Bestsellers_Products {
 	 * @return bool
 	 */
 	private function is_wp_compatible() {
-		if ( ! VHC_WC_BESTSELLERS_PRODUCTS_MIN_WP_VERSION ) {
+		if ( ! VHC_WC_BESTSELLERS_MIN_WP_VERSION ) {
 			return true;
 		}
-		return version_compare( get_bloginfo( 'version' ), VHC_WC_BESTSELLERS_PRODUCTS_MIN_WP_VERSION, '>=' );
+		return version_compare( get_bloginfo( 'version' ), VHC_WC_BESTSELLERS_MIN_WP_VERSION, '>=' );
 	}
 
 	/**
@@ -297,7 +297,7 @@ final class VHC_WC_Bestsellers_Products {
 	 * @since 1.0.0
 	 */
 	protected function deactivate_plugin() {
-		deactivate_plugins( VHC_WC_BESTSELLERS_PRODUCTS_PLUGIN_FILE );
+		deactivate_plugins( VHC_WC_BESTSELLERS_PLUGIN_FILE );
 
 		if ( isset( $_GET['activate'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			unset( $_GET['activate'] ); // phpcs:ignore WordPress.Security.NonceVerification
@@ -321,7 +321,7 @@ final class VHC_WC_Bestsellers_Products {
 	}
 
 	/**
-	 * Displays any admin notices added with VHC_WC_Bestsellers_Products::add_admin_notice()
+	 * Displays any admin notices added with VHC_WC_Bestsellers::add_admin_notice()
 	 *
 	 * @since 1.0.0
 	 */
@@ -357,7 +357,7 @@ final class VHC_WC_Bestsellers_Products {
 	 * @return bool
 	 */
 	private function is_environment_compatible() {
-		return version_compare( phpversion(), VHC_WC_BESTSELLERS_PRODUCTS_MIN_PHP_VERSION, '>=' );
+		return version_compare( phpversion(), VHC_WC_BESTSELLERS_MIN_PHP_VERSION, '>=' );
 	}
 
 	/**
@@ -369,8 +369,8 @@ final class VHC_WC_Bestsellers_Products {
 	private function get_environment_message() {
 		return sprintf(
 			/* translators: 1: Minimum PHP Version 2: Current PHP Version */
-			__( 'The minimum PHP version required for this plugin is %1$s. You are running %2$s.', 'vhc-wc-bestsellers-products' ),
-			VHC_WC_BESTSELLERS_PRODUCTS_MIN_PHP_VERSION,
+			__( 'The minimum PHP version required for this plugin is %1$s. You are running %2$s.', 'vhc-wc-bestsellers' ),
+			VHC_WC_BESTSELLERS_MIN_PHP_VERSION,
 			phpversion()
 		);
 	}
@@ -384,27 +384,15 @@ final class VHC_WC_Bestsellers_Products {
 		/**
 		 * Core classes.
 		 */
-		include_once VHC_WC_BESTSELLERS_PRODUCTS_ABSPATH . 'includes/vhc-wc-bestsellers-products-core-functions.php';
-
-		// Admin files.
-		if ( $this->is_request( 'admin' ) ) {
-			include_once VHC_WC_BESTSELLERS_PRODUCTS_ABSPATH . 'includes/admin/class-vhc-wc-bestsellers-products-admin.php';
-		}
+		include_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/class-vhc-wc-bestsellers-query.php';
+		include_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/class-vhc-wc-bestsellers-admin.php';
+		include_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/class-vhc-wc-bestsellers-archive.php';
+		include_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/vhc-wc-bestsellers-functions.php';
 
 		// Frontend files.
 		if ( $this->is_request( 'frontend' ) ) {
-			$this->frontend_includes();
+			include_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/class-vhc-wc-bestsellers-frontend.php';
 		}
-	}
-
-	/**
-	 * Include required frontend files.
-	 *
-	 * @since 1.0.0
-	 */
-	public function frontend_includes() {
-		include_once VHC_WC_BESTSELLERS_PRODUCTS_ABSPATH . 'includes/class-vhc-wc-bestsellers-products-frontend.php';
-		include_once VHC_WC_BESTSELLERS_PRODUCTS_ABSPATH . 'includes/vhc-wc-bestsellers-products-frontend-functions.php';
 	}
 
 	/**
@@ -413,8 +401,8 @@ final class VHC_WC_Bestsellers_Products {
 	 * Note: the first-loaded translation file overrides any following ones if the same translation is present.
 	 *
 	 * Locales found in:
-	 *      - WP_LANG_DIR/vhc-wc-bestsellers-products/vhc-wc-bestsellers-products-LOCALE.mo
-	 *      - WP_LANG_DIR/plugins/vhc-wc-bestsellers-products-LOCALE.mo
+	 *      - WP_LANG_DIR/vhc-wc-bestsellers/vhc-wc-bestsellers-LOCALE.mo
+	 *      - WP_LANG_DIR/plugins/vhc-wc-bestsellers-LOCALE.mo
 	 *
 	 * @since 1.0.0
 	 */
@@ -425,11 +413,11 @@ final class VHC_WC_Bestsellers_Products {
 			$locale = is_admin() ? get_user_locale() : get_locale();
 		}
 
-		$locale = apply_filters( 'plugin_locale', $locale, 'vhc-wc-bestsellers-products' );
+		$locale = apply_filters( 'plugin_locale', $locale, 'vhc-wc-bestsellers' );
 
-		unload_textdomain( 'vhc-wc-bestsellers-products' );
-		load_textdomain( 'vhc-wc-bestsellers-products', WP_LANG_DIR . '/vhc-wc-bestsellers-products/vhc-wc-bestsellers-products-' . $locale . '.mo' );
-		load_plugin_textdomain( 'vhc-wc-bestsellers-products', false, plugin_basename( dirname( VHC_WC_BESTSELLERS_PRODUCTS_PLUGIN_FILE ) ) . '/languages' );
+		unload_textdomain( 'vhc-wc-bestsellers' );
+		load_textdomain( 'vhc-wc-bestsellers', WP_LANG_DIR . '/vhc-wc-bestsellers/vhc-wc-bestsellers-' . $locale . '.mo' );
+		load_plugin_textdomain( 'vhc-wc-bestsellers', false, plugin_basename( dirname( VHC_WC_BESTSELLERS_PLUGIN_FILE ) ) . '/languages' );
 	}
 
 	/**
@@ -446,13 +434,13 @@ final class VHC_WC_Bestsellers_Products {
 		$this->includes();
 
 		// Before init action.
-		do_action( 'before_vhc_wc_bestsellers_products_init' );
+		do_action( 'before_vhc_wc_bestsellers_init' );
 
 		// Set up localisation.
 		$this->load_plugin_textdomain();
 
 		// Init action.
-		do_action( 'vhc_wc_bestsellers_products_init' );
+		do_action( 'vhc_wc_bestsellers_init' );
 	}
 
 	/**
@@ -462,7 +450,7 @@ final class VHC_WC_Bestsellers_Products {
 	 * @return string
 	 */
 	public function plugin_url() {
-		return untrailingslashit( plugins_url( '/', VHC_WC_BESTSELLERS_PRODUCTS_PLUGIN_FILE ) );
+		return untrailingslashit( plugins_url( '/', VHC_WC_BESTSELLERS_PLUGIN_FILE ) );
 	}
 
 	/**
@@ -472,7 +460,7 @@ final class VHC_WC_Bestsellers_Products {
 	 * @return string
 	 */
 	public function plugin_path() {
-		return untrailingslashit( plugin_dir_path( VHC_WC_BESTSELLERS_PRODUCTS_PLUGIN_FILE ) );
+		return untrailingslashit( plugin_dir_path( VHC_WC_BESTSELLERS_PLUGIN_FILE ) );
 	}
 
 	/**
