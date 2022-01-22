@@ -24,6 +24,14 @@ final class VHC_WC_Bestsellers {
 	private static $instance;
 
 	/**
+	 * Frontend class instance.
+	 *
+	 * @var VHC_WC_Bestsellers_Frontend single instance of frontend class.
+	 * @since 1.0.0
+	 */
+	private $frontend;
+
+	/**
 	 * Admin notices to add.
 	 *
 	 * @var array Array of admin notices.
@@ -384,14 +392,13 @@ final class VHC_WC_Bestsellers {
 		/**
 		 * Core classes.
 		 */
-		include_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/class-vhc-wc-bestsellers-query.php';
+		include_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/class-vhc-wc-widget-bestsellers.php';
 		include_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/class-vhc-wc-bestsellers-admin.php';
-		include_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/class-vhc-wc-bestsellers-archive.php';
-		include_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/vhc-wc-bestsellers-functions.php';
 
 		// Frontend files.
 		if ( $this->is_request( 'frontend' ) ) {
-			include_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/class-vhc-wc-bestsellers-frontend.php';
+			$this->frontend = include_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/class-vhc-wc-bestsellers-frontend.php';
+			include_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/class-vhc-wc-bestsellers-archive.php';
 		}
 	}
 
@@ -471,5 +478,26 @@ final class VHC_WC_Bestsellers {
 	 */
 	public function ajax_url() {
 		return admin_url( 'admin-ajax.php', 'relative' );
+	}
+
+	/**
+	 * Return bestsellers.
+	 *
+	 * @param array $args Arguments array.
+	 * @return array
+	 */
+	public function get_bestsellers( $args = array() ) {
+		return $this->frontend->get_bestsellers( $args );
+	}
+
+	/**
+	 * Check if current page is bestsellers archive page.
+	 *
+	 * @return bool
+	 */
+	public function is_archive() {
+		global $wp_query;
+
+		return $wp_query->is_vhc_bestsellers_archive && wc_get_page_id( 'vhc_bestsellers' ) === $wp_query->queried_object_id;
 	}
 }

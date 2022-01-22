@@ -25,23 +25,64 @@ class VHC_WC_Bestsellers_Admin {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		// Include widget files.
-		$this->includes();
-
 		// Register Widgets.
 		add_action( 'widgets_init', array( $this, 'register_widgets' ) );
 
-		add_filter( 'woocommerce_get_sections_products', array( $this, 'add_setting_setion' ) );
-		add_filter( 'woocommerce_get_settings_products', array( $this, 'add_settings' ), 10, 2 );
+		if ( is_admin() ) {
+			add_filter( 'plugin_action_links_' . VHC_WC_BESTSELLERS_PLUGIN_BASENAME, array( $this, 'plugin_manage_link' ), 10, 4 );
+			add_filter( 'woocommerce_get_sections_products', array( $this, 'add_setting_setion' ) );
+			add_filter( 'woocommerce_get_settings_products', array( $this, 'add_settings' ), 10, 2 );
+		}
 	}
 
 	/**
-	 * Include any classes/functions we need within admin.
+	 * Return the plugin action links.
+	 *
+	 * @param array $actions Associative array of action names to anchor tags.
+	 * @since 1.0.0
+	 * @return array
+	 */
+	public function plugin_manage_link( $actions ) {
+		$url = add_query_arg(
+			array(
+				'page'    => 'wc-settings',
+				'tab'     => 'products',
+				'section' => 'vhc-bestsellers',
+			),
+			admin_url( 'admin.php' )
+		);
+
+		$actions['settings'] = '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Settings', 'vhc-wc-sales-report' ) . '</a>';
+
+		return $actions;
+	}
+
+	/**
+	 * Returns bestsellers sales period options.
 	 *
 	 * @since 1.0.0
+	 * @return array
 	 */
-	public function includes() {
-		require_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/widgets/class-vhc-wc-widget-bestsellers.php';
+	public static function sales_periods() {
+		$options = array(
+			'today'          => __( 'Today orders', 'vhc-wc-sales-report' ),
+			'yesterday'      => __( 'Yesterday orders', 'vhc-wc-sales-report' ),
+			'last-2-days'    => __( 'Last 3 days orders (excluding today)', 'vhc-wc-sales-report' ),
+			'last-3-days'    => __( 'Last 3 days orders (excluding today)', 'vhc-wc-sales-report' ),
+			'last-7-days'    => __( 'Last 7 days orders (excluding today)', 'vhc-wc-sales-report' ),
+			'last-14-days'   => __( 'Last 14 days orders (excluding today)', 'vhc-wc-sales-report' ),
+			'last-30-days'   => __( 'Last 30 days orders (excluding today)', 'vhc-wc-sales-report' ),
+			'this-month'     => __( 'This month orders (including today)', 'vhc-wc-sales-report' ),
+			'last-month'     => __( 'Last month orders', 'vhc-wc-sales-report' ),
+			'last-3-months'  => __( 'Last 3 months orders (excluding current month)', 'vhc-wc-sales-report' ),
+			'last-6-months'  => __( 'Last 6 months orders (excluding current month)', 'vhc-wc-sales-report' ),
+			'last-12-months' => __( 'Last 12 months orders (excluding current month)', 'vhc-wc-sales-report' ),
+			'this-year'      => __( 'This year orders', 'vhc-wc-sales-report' ),
+			'last-year'      => __( 'Last year orders', 'vhc-wc-sales-report' ),
+			'all'            => __( 'All time', 'vhc-wc-sales-report' ),
+		);
+
+		return apply_filters( 'vhc_wc_bestsellers_sales_periods_options', $options );
 	}
 
 	/**
@@ -57,7 +98,6 @@ class VHC_WC_Bestsellers_Admin {
 	 * Add setting section in product settings
 	 *
 	 * @param array $sections Sections array.
-	 *
 	 * @since 1.0.0
 	 * @return array
 	 */
@@ -71,7 +111,6 @@ class VHC_WC_Bestsellers_Admin {
 	 *
 	 * @param array  $settings Settings array.
 	 * @param string $section_id Current section id.
-	 *
 	 * @since 1.0.0
 	 * @return array
 	 */
@@ -79,13 +118,12 @@ class VHC_WC_Bestsellers_Admin {
 		if ( 'vhc-bestsellers' === $section_id ) {
 			$settings = array(
 				array(
-					'title' => __( 'VHC Bestsellers options', 'vhc-wc-bestsellers' ),
+					'title' => __( 'VHC Bestsellers', 'vhc-wc-bestsellers' ),
 					'type'  => 'title',
-					'desc'  => __( 'Manage your bestsellers products default settings here. Shortcode to use: [vhc_wc_bestsellers limit="100" columns="5" range="all"]', 'vhc-wc-bestsellers' ),
 				),
 				array(
 					'title'   => __( 'Bestsellers page', 'vhc-wc-bestsellers' ),
-					'desc'    => __( 'Set your bestsellers page here.', 'vhc-wc-bestsellers' ),
+					'desc'    => __( 'The base page for bestsellers archive.', 'vhc-wc-bestsellers' ),
 					'id'      => 'woocommerce_vhc_bestsellers_page_id',
 					'type'    => 'single_select_page',
 					'default' => '',
@@ -93,16 +131,16 @@ class VHC_WC_Bestsellers_Admin {
 				),
 				array(
 					'title'   => __( 'Sales period', 'vhc-wc-bestsellers' ),
-					'desc'    => __( 'Set your bestsellers page here.', 'vhc-wc-bestsellers' ),
+					'desc'    => __( 'Default sales period for bestsellers archive.', 'vhc-wc-bestsellers' ),
 					'id'      => 'woocommerce_vhc_bestsellers_sales_period',
 					'type'    => 'select',
 					'default' => 'all',
 					'class'   => 'wc-enhanced-select',
-					'options' => vhc_wc_bestsellers_sales_period_options(),
+					'options' => self::sales_periods(),
 				),
 				array(
 					'title'             => __( 'Limit', 'vhc-wc-bestsellers' ),
-					'desc'              => __( 'Select the number of products to show as best sellers.', 'vhc-wc-bestsellers' ),
+					'desc'              => __( 'Number of products to show as bestsellers archive.', 'vhc-wc-bestsellers' ),
 					'id'                => 'woocommerce_vhc_bestsellers_limit',
 					'type'              => 'number',
 					'custom_attributes' => array(
@@ -113,6 +151,13 @@ class VHC_WC_Bestsellers_Admin {
 					'css'               => 'width: 80px;',
 					'default'           => 100,
 					'autoload'          => false,
+				),
+				array(
+					'title'   => __( 'Hide free products', 'vhc-wc-bestsellers' ),
+					'desc'    => __( 'Hide free products from bestsellers.', 'vhc-wc-bestsellers' ),
+					'id'      => 'woocommerce_vhc_bestsellers_hide_free',
+					'default' => 'no',
+					'type'    => 'checkbox',
 				),
 				array( 'type' => 'sectionend' ),
 			);

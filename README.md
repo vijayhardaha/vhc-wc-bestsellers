@@ -6,7 +6,7 @@ A Wordpress starter pack with pre-configured Gulp to setup custom Wordpress Plug
 Download this repositary and extract and rename the folder to your desired plugin name or clone this repositary using this following command:
 
 ```bash
-git clone https://github.com/vijayhardaha/wordpress-plugin-boilerplate.git wp-demo-plugin
+git clone https://github.com/vijayhardaha/vhc-wc-bestsellers.git wp-demo-plugin
 ```
 **wp-demo-plugin** is just an example of plugin name. You have to write your plugin name that you want to create.
 

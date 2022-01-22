@@ -34,26 +34,24 @@ class VHC_WC_Bestsellers_Archive {
 	/**
 	 * Modify template loader
 	 *
-	 * @since 1.0.0
 	 * @param string $template template path.
+	 * @since 1.0.0
 	 * @return string
 	 */
 	public function template_loader( $template ) {
-		$find = array( 'woocommerce.php' );
-		$file = '';
+		$find    = array( 'woocommerce.php' );
+		$file    = '';
+		$page_id = $this->get_main_wpml_id( wc_get_page_id( 'vhc_bestsellers' ) );
 
-		$bestsellers_page_id = wc_get_page_id( 'vhc_bestsellers' );
-
-		if ( is_post_type_archive( 'product' ) || is_page( $bestsellers_page_id ) ) {
+		if ( is_page( $page_id ) ) {
 			$file   = 'archive-product.php';
 			$find[] = $file;
 			$find[] = WC()->template_path() . $file;
-		}
-
-		if ( ! empty( $file ) ) {
-			$template = locate_template( array_unique( $find ) );
-			if ( ! $template || WC_TEMPLATE_DEBUG_MODE ) {
-				$template = WC()->plugin_path() . '/templates/' . $file;
+			if ( ! empty( $file ) ) {
+				$template = locate_template( array_unique( $find ) );
+				if ( ! $template || WC_TEMPLATE_DEBUG_MODE ) {
+					$template = WC()->plugin_path() . '/templates/' . $file;
+				}
 			}
 		}
 
@@ -63,17 +61,17 @@ class VHC_WC_Bestsellers_Archive {
 	/**
 	 * Filter post query
 	 *
-	 * @since 1.0.0
 	 * @param object $q query object.
+	 * @since 1.0.0
 	 */
 	public function pre_get_posts( $q ) {
 		if ( ! $q->query ) {
 			return;
 		}
 
-		$bestsellers_page_id = $this->get_main_wpml_id( wc_get_page_id( 'vhc_bestsellers' ) );
+		$page_id = $this->get_main_wpml_id( wc_get_page_id( 'vhc_bestsellers' ) );
 
-		if ( $bestsellers_page_id > 1 && is_page( $bestsellers_page_id ) ) {
+		if ( is_page( $page_id ) ) {
 			$q->set( 'post_type', 'product' );
 			$q->set( 'page', '' );
 			$q->set( 'pagename', '' );
@@ -146,8 +144,8 @@ class VHC_WC_Bestsellers_Archive {
 	/**
 	 * Set is filtered is true to skip displaying categories only on page.
 	 *
-	 * @since 1.0.0
 	 * @param int $id page id.
+	 * @since 1.0.0
 	 * @return bool
 	 */
 	public function add_is_filtered( $id ) {
@@ -157,8 +155,8 @@ class VHC_WC_Bestsellers_Archive {
 	/**
 	 * Change title for custom archive page.
 	 *
-	 * @since 1.0.0
 	 * @param string $title page title.
+	 * @since 1.0.0
 	 * @return string
 	 */
 	public function change_page_title( $title ) {
@@ -176,8 +174,8 @@ class VHC_WC_Bestsellers_Archive {
 	/**
 	 * Fix active class in nav for auction page.
 	 *
-	 * @since 1.0.0
 	 * @param array $menu_items menu items array.
+	 * @since 1.0.0
 	 * @return array
 	 */
 	public function nav_menu_item_classes( $menu_items ) {
@@ -219,9 +217,9 @@ class VHC_WC_Bestsellers_Archive {
 	/**
 	 * Translate custom archive page url.
 	 *
-	 * @since 1.0.0
 	 * @param array $languages languages array.
 	 * @param bool  $debug_mode enable/disable debug mode.
+	 * @since 1.0.0
 	 * @return array
 	 */
 	public function translate_url( $languages, $debug_mode = false ) {
@@ -284,23 +282,20 @@ class VHC_WC_Bestsellers_Archive {
 	/**
 	 * Exclude restricted & excluded categories from release page
 	 *
+	 * @since 1.0.0
 	 * @param object $q Query object.
 	 */
 	public function parse_query( $q ) {
 		global $wp_query;
 
-		if ( ! is_admin() && $wp_query->is_vhc_bestsellers_archive && $q->is_main_query() ) {
-			$bs_page_id = wc_get_page_id( 'vhc_bestsellers' );
-
-			// Exlude categories products on release page.
-			if ( $q->queried_object_id === $bs_page_id ) {
-				$bs_product_ids = vhc_wc_bestsellers_get_product_ids( 'all' );
-				$bs_product_ids = empty( $bs_product_ids ) ? array( 0 ) : (array) $bs_product_ids;
-				$post_in        = (array) $q->get( 'post__in' );
-				$post_in        = array_merge( $post_in, $bs_product_ids );
-				$q->set( 'post__in', $post_in );
-				$q->set( 'orderby', 'post__in' );
-			}
+		if ( ! is_admin() && vhc_wc_bestsellers()->is_archive() && $q->is_main_query() ) {
+			$args           = apply_filters( 'vhc_wc_bestsellers_archive_query_args', array() );
+			$bs_product_ids = vhc_wc_bestsellers()->get_bestsellers( $args );
+			$bs_product_ids = empty( $bs_product_ids ) ? array( 0 ) : (array) $bs_product_ids;
+			$post_in        = (array) $q->get( 'post__in' );
+			$post_in        = array_merge( $post_in, $bs_product_ids );
+			$q->set( 'post__in', $post_in );
+			$q->set( 'orderby', 'post__in' );
 		}
 	}
 }
