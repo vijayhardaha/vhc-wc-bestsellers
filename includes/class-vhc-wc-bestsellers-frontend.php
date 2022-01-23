@@ -65,66 +65,60 @@ class VHC_WC_Bestsellers_Frontend {
 	 * @return array.
 	 */
 	private function calculate_range( $period = '' ) {
-		$midnight  = strtotime( 'today midnight' );
-		$postnight = $midnight + DAY_IN_SECONDS - 1;
-
+		$one_day  = DAY_IN_SECONDS;
+		$midnight = strtotime( 'today midnight' );
+		$end_date = $midnight + $one_day - 1;
 		switch ( $period ) {
 			case 'today':
 				$start_date = $midnight;
-				$end_date   = $postnight;
 				break;
 			case 'yesterday':
 				$start_date = $midnight - DAY_IN_SECONDS;
-				$end_date   = $start_date + DAY_IN_SECONDS - 1;
+				break;
+			case 'last-2-days':
+				$start_date = $midnight - ( 2 * $one_day );
 				break;
 			case 'last-3-days':
-				$start_date = $midnight - ( 3 * DAY_IN_SECONDS );
-				$end_date   = $midnight - 1;
+				$start_date = $midnight - ( 3 * $one_day );
 				break;
 			case 'last-7-days':
-				$start_date = $midnight - ( 7 * DAY_IN_SECONDS );
-				$end_date   = $midnight - 1;
+				$start_date = $midnight - ( 7 * $one_day );
 				break;
 			case 'last-14-days':
-				$start_date = $midnight - ( 14 * DAY_IN_SECONDS );
-				$end_date   = $midnight - 1;
+				$start_date = $midnight - ( 14 * $one_day );
 				break;
 			case 'last-30-days':
-				$start_date = $midnight - ( 30 * DAY_IN_SECONDS );
-				$end_date   = $midnight - 1;
+				$start_date = $midnight - ( 30 * $one_day );
 				break;
 			case 'this-month':
 				$start_date = strtotime( 'midnight', strtotime( 'first day of this month' ) );
-				$end_date   = strtotime( 'midnight', strtotime( 'last day of this month' ) ) + DAY_IN_SECONDS - 1;
 				break;
 			case 'last-month':
 				$start_date = strtotime( 'midnight', strtotime( 'first day of last month' ) );
-				$end_date   = strtotime( 'midnight', strtotime( 'last day of last month' ) ) + DAY_IN_SECONDS - 1;
+				break;
+			case 'last-2-months':
+				$start_date = strtotime( 'midnight', strtotime( 'first day of -2 month' ) );
 				break;
 			case 'last-3-months':
 				$start_date = strtotime( 'midnight', strtotime( 'first day of -3 month' ) );
-				$end_date   = strtotime( 'midnight', strtotime( 'last day of last month' ) ) + DAY_IN_SECONDS - 1;
 				break;
 			case 'last-6-months':
 				$start_date = strtotime( 'midnight', strtotime( 'first day of -6 month' ) );
-				$end_date   = strtotime( 'midnight', strtotime( 'last day of last month' ) ) + DAY_IN_SECONDS - 1;
 				break;
 			case 'last-12-months':
 				$start_date = strtotime( 'midnight', strtotime( 'first day of -12 month' ) );
-				$end_date   = strtotime( 'midnight', strtotime( 'last day of last month' ) ) + DAY_IN_SECONDS - 1;
 				break;
 			case 'this-year':
 				$start_date = strtotime( 'midnight', strtotime( gmdate( 'Y-01-01' ) ) );
-				$end_date   = strtotime( 'midnight', strtotime( gmdate( 'Y-12-31' ) ) ) + DAY_IN_SECONDS - 1;
+				$end_date   = $postnight;
 				break;
 			case 'last-year':
 				$last_year  = gmdate( 'Y' ) - 1;
 				$start_date = strtotime( 'midnight', strtotime( gmdate( $last_year . '-01-01' ) ) );
-				$end_date   = strtotime( 'midnight', strtotime( gmdate( $last_year . '-12-31' ) ) ) + DAY_IN_SECONDS - 1;
+				$end_date   = $postnight;
 				break;
 			default:
 				$start_date = '';
-				$end_date   = '';
 		}
 
 		$range_args = array(
