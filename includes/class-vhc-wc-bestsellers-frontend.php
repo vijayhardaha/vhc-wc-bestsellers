@@ -68,6 +68,7 @@ class VHC_WC_Bestsellers_Frontend {
 		$one_day  = DAY_IN_SECONDS;
 		$midnight = strtotime( 'today midnight' );
 		$end_date = $midnight + $one_day - 1;
+
 		switch ( $period ) {
 			case 'today':
 				$start_date = $midnight;
@@ -110,12 +111,10 @@ class VHC_WC_Bestsellers_Frontend {
 				break;
 			case 'this-year':
 				$start_date = strtotime( 'midnight', strtotime( gmdate( 'Y-01-01' ) ) );
-				$end_date   = $postnight;
 				break;
 			case 'last-year':
 				$last_year  = gmdate( 'Y' ) - 1;
 				$start_date = strtotime( 'midnight', strtotime( gmdate( $last_year . '-01-01' ) ) );
-				$end_date   = $postnight;
 				break;
 			default:
 				$start_date = '';
@@ -126,7 +125,7 @@ class VHC_WC_Bestsellers_Frontend {
 			'end'   => $end_date,
 		);
 
-		return apply_filters( 'vhc_wc_bestsellers_range_args', $range_args, $period, $midnight, $postnight );
+		return apply_filters( 'vhc_wc_bestsellers_range_args', $range_args, $period, $midnight );
 	}
 
 	/**
