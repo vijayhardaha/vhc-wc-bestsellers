@@ -13,39 +13,39 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../includes/class-vhc-wc-bestsellers-admin.php:105, ../includes/class-vhc-wc-bestsellers-admin.php:121
+#: ../includes/class-vhc-wc-bestsellers-admin.php:106, ../includes/class-vhc-wc-bestsellers-admin.php:122
 msgid "VHC Bestsellers"
 msgstr ""
 
-#: ../includes/class-vhc-wc-bestsellers-admin.php:125
+#: ../includes/class-vhc-wc-bestsellers-admin.php:126
 msgid "Bestsellers page"
 msgstr ""
 
-#: ../includes/class-vhc-wc-bestsellers-admin.php:126
+#: ../includes/class-vhc-wc-bestsellers-admin.php:127
 msgid "The base page for bestsellers archive."
 msgstr ""
 
-#: ../includes/class-vhc-wc-bestsellers-admin.php:133
+#: ../includes/class-vhc-wc-bestsellers-admin.php:134
 msgid "Sales period"
 msgstr ""
 
-#: ../includes/class-vhc-wc-bestsellers-admin.php:134
+#: ../includes/class-vhc-wc-bestsellers-admin.php:135
 msgid "Default sales period for bestsellers archive."
 msgstr ""
 
-#: ../includes/class-vhc-wc-bestsellers-admin.php:142
+#: ../includes/class-vhc-wc-bestsellers-admin.php:143
 msgid "Limit"
 msgstr ""
 
-#: ../includes/class-vhc-wc-bestsellers-admin.php:143
+#: ../includes/class-vhc-wc-bestsellers-admin.php:144
 msgid "Number of products to show as bestsellers archive."
 msgstr ""
 
-#: ../includes/class-vhc-wc-bestsellers-admin.php:156, ../includes/class-vhc-wc-widget-bestsellers.php:60
+#: ../includes/class-vhc-wc-bestsellers-admin.php:157, ../includes/class-vhc-wc-widget-bestsellers.php:60
 msgid "Hide free products"
 msgstr ""
 
-#: ../includes/class-vhc-wc-bestsellers-admin.php:157
+#: ../includes/class-vhc-wc-bestsellers-admin.php:158
 msgid "Hide free products from bestsellers."
 msgstr ""
 
