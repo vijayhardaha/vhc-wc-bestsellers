@@ -498,6 +498,6 @@ final class VHC_WC_Bestsellers {
 	public function is_archive() {
 		global $wp_query;
 
-		return $wp_query->is_vhc_bestsellers_archive && wc_get_page_id( 'vhc_bestsellers' ) === $wp_query->queried_object_id;
+		return $wp_query->is_vhcbs_archive && wc_get_page_id( 'vhc_bestsellers' ) === $wp_query->queried_object_id;
 	}
 }
