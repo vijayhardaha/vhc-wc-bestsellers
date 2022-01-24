@@ -73,7 +73,7 @@ class VHC_WC_Bestsellers_Admin {
 			'last-14-days'   => __( 'Last 14 days', 'vhc-wc-sales-report' ),
 			'last-30-days'   => __( 'Last 30 days', 'vhc-wc-sales-report' ),
 			'this-month'     => __( 'This month', 'vhc-wc-sales-report' ),
-			'last-month'     => __( 'Last 1 month', 'vhc-wc-sales-report' ),
+			'last-month'     => __( 'Last month', 'vhc-wc-sales-report' ),
 			'last-2-months'  => __( 'Last 2 months', 'vhc-wc-sales-report' ),
 			'last-3-months'  => __( 'Last 3 months', 'vhc-wc-sales-report' ),
 			'last-6-months'  => __( 'Last 6 months', 'vhc-wc-sales-report' ),
