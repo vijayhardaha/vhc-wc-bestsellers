@@ -41,7 +41,8 @@ class VHC_WC_Bestsellers_Archive {
 			add_filter( 'woocommerce_get_breadcrumb', array( $this, 'get_breadcrumb' ), 1, 2 );
 			add_filter( 'document_title_parts', array( $this, 'change_page_title' ), 10 );
 			add_filter( 'wp_nav_menu_objects', array( $this, 'nav_menu_item_classes' ) );
-			add_action( 'woocommerce_product_query', array( $this, 'parse_query' ) );
+			add_action( 'woocommerce_product_query', array( $this, 'parse_query' ), 1 );
+			add_filter( 'woocommerce_product_is_visible', array( $this, 'adjust_visibility' ) );
 		}
 	}
 
@@ -303,6 +304,20 @@ class VHC_WC_Bestsellers_Archive {
 
 			$q->set( 'tax_query', $tax_query );
 		}
+	}
+
+	/**
+	 * Adjust visibility if show hidden it true.
+	 *
+	 * @param bool $visibility Visibility status.
+	 * @return bool
+	 */
+	public function adjust_visibility( $visibility ) {
+		if ( $this->is_page() && 'yes' === get_option( 'woocommerce_vhc_bestsellers_show_hidden', 'no' ) ) {
+			return true;
+		}
+
+		return $visibility;
 	}
 }
 
