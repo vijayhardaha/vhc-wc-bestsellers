@@ -306,4 +306,4 @@ class VHC_WC_Bestsellers_Archive {
 	}
 }
 
-new VHC_WC_Bestsellers_Archive();
+return new VHC_WC_Bestsellers_Archive();
