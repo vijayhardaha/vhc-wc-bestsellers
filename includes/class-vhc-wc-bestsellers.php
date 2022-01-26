@@ -506,6 +506,6 @@ final class VHC_WC_Bestsellers {
 	 * @return bool
 	 */
 	public function is_archive() {
-		return $this->archive->is_page();
+		return $this->archive && $this->archive->is_page();
 	}
 }
