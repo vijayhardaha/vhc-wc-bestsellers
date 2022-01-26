@@ -124,7 +124,7 @@ class VHC_WC_Bestsellers_Admin {
 				),
 				array(
 					'title'   => __( 'Bestsellers page', 'vhc-wc-bestsellers' ),
-					'desc'    => __( 'The base page for bestsellers archive.', 'vhc-wc-bestsellers' ),
+					'desc'    => __( 'The base page for bestsellers catalog.', 'vhc-wc-bestsellers' ),
 					'id'      => 'woocommerce_vhc_bestsellers_page_id',
 					'type'    => 'single_select_page',
 					'default' => '',
@@ -132,7 +132,7 @@ class VHC_WC_Bestsellers_Admin {
 				),
 				array(
 					'title'   => __( 'Sales period', 'vhc-wc-bestsellers' ),
-					'desc'    => __( 'Default sales period for bestsellers archive.', 'vhc-wc-bestsellers' ),
+					'desc'    => __( 'Default sales period for bestsellers catalog.', 'vhc-wc-bestsellers' ),
 					'id'      => 'woocommerce_vhc_bestsellers_sales_period',
 					'type'    => 'select',
 					'default' => 'all',
@@ -141,7 +141,7 @@ class VHC_WC_Bestsellers_Admin {
 				),
 				array(
 					'title'             => __( 'Limit', 'vhc-wc-bestsellers' ),
-					'desc'              => __( 'Number of products to show as bestsellers archive.', 'vhc-wc-bestsellers' ),
+					'desc'              => __( 'Number of products to show as bestsellers catalog.', 'vhc-wc-bestsellers' ),
 					'id'                => 'woocommerce_vhc_bestsellers_limit',
 					'type'              => 'number',
 					'custom_attributes' => array(
@@ -155,21 +155,21 @@ class VHC_WC_Bestsellers_Admin {
 				),
 				array(
 					'title'   => __( 'Hide free products', 'vhc-wc-bestsellers' ),
-					'desc'    => __( 'Hide free products from bestsellers.', 'vhc-wc-bestsellers' ),
+					'desc'    => __( 'Hide free products from bestsellers catalog.', 'vhc-wc-bestsellers' ),
 					'id'      => 'woocommerce_vhc_bestsellers_hide_free',
 					'default' => 'no',
 					'type'    => 'checkbox',
 				),
 				array(
 					'title'   => __( 'Show hidden products', 'vhc-wc-bestsellers' ),
-					'desc'    => __( 'Show hidden products in bestsellers archive.', 'vhc-wc-bestsellers' ),
+					'desc'    => __( 'Show hidden products in bestsellers catalog.', 'vhc-wc-bestsellers' ),
 					'id'      => 'woocommerce_vhc_bestsellers_show_hidden',
 					'default' => 'no',
 					'type'    => 'checkbox',
 				),
 				array(
 					'title'   => __( 'Out of stock visibility', 'vhc-wc-bestsellers' ),
-					'desc'    => __( 'Hide out of stock items from the catalog.', 'vhc-wc-bestsellers' ),
+					'desc'    => __( 'Hide out of stock items from the bestsellers catalog.', 'vhc-wc-bestsellers' ),
 					'id'      => 'woocommerce_vhc_bestsellers_hide_out_of_stock',
 					'default' => 'no',
 					'type'    => 'checkbox',

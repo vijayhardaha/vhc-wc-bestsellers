@@ -22,7 +22,7 @@ msgid "Bestsellers page"
 msgstr ""
 
 #: ../includes/class-vhc-wc-bestsellers-admin.php:127
-msgid "The base page for bestsellers archive."
+msgid "The base page for bestsellers catalog."
 msgstr ""
 
 #: ../includes/class-vhc-wc-bestsellers-admin.php:134
@@ -30,7 +30,7 @@ msgid "Sales period"
 msgstr ""
 
 #: ../includes/class-vhc-wc-bestsellers-admin.php:135
-msgid "Default sales period for bestsellers archive."
+msgid "Default sales period for bestsellers catalog."
 msgstr ""
 
 #: ../includes/class-vhc-wc-bestsellers-admin.php:143
@@ -38,7 +38,7 @@ msgid "Limit"
 msgstr ""
 
 #: ../includes/class-vhc-wc-bestsellers-admin.php:144
-msgid "Number of products to show as bestsellers archive."
+msgid "Number of products to show as bestsellers catalog."
 msgstr ""
 
 #: ../includes/class-vhc-wc-bestsellers-admin.php:157, ../includes/class-vhc-wc-widget-bestsellers.php:60
@@ -46,36 +46,52 @@ msgid "Hide free products"
 msgstr ""
 
 #: ../includes/class-vhc-wc-bestsellers-admin.php:158
-msgid "Hide free products from bestsellers."
+msgid "Hide free products from bestsellers catalog."
+msgstr ""
+
+#: ../includes/class-vhc-wc-bestsellers-admin.php:164, ../includes/class-vhc-wc-widget-bestsellers.php:65
+msgid "Show hidden products"
+msgstr ""
+
+#: ../includes/class-vhc-wc-bestsellers-admin.php:165
+msgid "Show hidden products in bestsellers catalog."
+msgstr ""
+
+#: ../includes/class-vhc-wc-bestsellers-admin.php:171
+msgid "Out of stock visibility"
+msgstr ""
+
+#: ../includes/class-vhc-wc-bestsellers-admin.php:172
+msgid "Hide out of stock items from the bestsellers catalog."
 msgstr ""
 
 #. translators: 1: error message 2: file name and path 3: line number
-#: ../includes/class-vhc-wc-bestsellers.php:120
+#: ../includes/class-vhc-wc-bestsellers.php:128
 msgid "%1$s in %2$s on line %3$s"
 msgstr ""
 
 #. translators: %s Plugin Name
-#: ../includes/class-vhc-wc-bestsellers.php:191
+#: ../includes/class-vhc-wc-bestsellers.php:199
 msgid "%1$s could not be activated. %2$s"
 msgstr ""
 
 #. translators: %s Plugin Name
-#: ../includes/class-vhc-wc-bestsellers.php:215
+#: ../includes/class-vhc-wc-bestsellers.php:223
 msgid "%s has been deactivated."
 msgstr ""
 
 #. translators: 1: Plugin Name 2: Minimum WP Version 3: Update Url
-#: ../includes/class-vhc-wc-bestsellers.php:234
+#: ../includes/class-vhc-wc-bestsellers.php:242
 msgid "%1$s requires WordPress version %2$s or higher. Please %3$supdate WordPress &raquo;%4$s"
 msgstr ""
 
 #. translators: 1: Plugin Name 2: Required Plugins Names
-#: ../includes/class-vhc-wc-bestsellers.php:250
+#: ../includes/class-vhc-wc-bestsellers.php:258
 msgid "%1$s  is enabled but not effective. It requires %2$s in order to work."
 msgstr ""
 
 #. translators: 1: Minimum PHP Version 2: Current PHP Version
-#: ../includes/class-vhc-wc-bestsellers.php:380
+#: ../includes/class-vhc-wc-bestsellers.php:388
 msgid "The minimum PHP version required for this plugin is %1$s. You are running %2$s."
 msgstr ""
 
@@ -119,6 +135,6 @@ msgstr ""
 msgid "On-sale products"
 msgstr ""
 
-#: ../includes/class-vhc-wc-widget-bestsellers.php:65
-msgid "Show hidden products"
+#: ../includes/class-vhc-wc-widget-bestsellers.php:70
+msgid "Hide out of stock products"
 msgstr ""
