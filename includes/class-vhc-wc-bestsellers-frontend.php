@@ -37,18 +37,19 @@ class VHC_WC_Bestsellers_Frontend {
 	 */
 	private function parse_args( $args ) {
 		$default_args = array(
-			'period'      => get_option( 'woocommerce_vhc_bestsellers_sales_period', 'all' ),
-			'limit'       => get_option( 'woocommerce_vhc_bestsellers_limit', 100 ),
-			'fallback'    => true,
-			'show_hidden' => false,
-			'hide_free'   => get_option( 'woocommerce_vhc_bestsellers_hide_free', 'no' ) === 'yes',
-			'include'     => array(),
-			'exclude'     => array(),
-			'meta_query'  => array(), // phpcs:ignore WordPress.DB.SlowDBQuery
-			'tax_query'   => array(), // phpcs:ignore WordPress.DB.SlowDBQuery
-			'terms'       => array(),
-			'show'        => '',
-			'return'      => '',
+			'period'            => get_option( 'woocommerce_vhc_bestsellers_sales_period', 'all' ),
+			'limit'             => get_option( 'woocommerce_vhc_bestsellers_limit', 100 ),
+			'fallback'          => true,
+			'show_hidden'       => 'yes' === get_option( 'woocommerce_vhc_bestsellers_show_hidden', 'no' ),
+			'hide_out_of_stock' => 'yes' === get_option( 'woocommerce_vhc_bestsellers_hide_out_of_stock', 'no' ),
+			'hide_free'         => 'yes' === get_option( 'woocommerce_vhc_bestsellers_hide_free', 'no' ),
+			'include'           => array(),
+			'exclude'           => array(),
+			'meta_query'        => array(), // phpcs:ignore WordPress.DB.SlowDBQuery
+			'tax_query'         => array(), // phpcs:ignore WordPress.DB.SlowDBQuery
+			'terms'             => array(),
+			'show'              => '',
+			'return'            => '',
 		);
 
 		$args = wp_parse_args( $args, $default_args );
@@ -147,16 +148,25 @@ class VHC_WC_Bestsellers_Frontend {
 			),
 		);
 
-		$product_visibility_term_ids = wc_get_product_visibility_term_ids();
+		$product_visibility_terms  = wc_get_product_visibility_term_ids();
+		$product_visibility_not_in = array();
 
 		if ( empty( $args['show_hidden'] ) ) {
+			$product_visibility_not_in[] = $product_visibility_terms['exclude-from-catalog'];
+			$query_args['post_parent']   = 0;
+		}
+
+		if ( ! empty( $args['hide_out_of_stock'] ) ) {
+			$product_visibility_not_in[] = $product_visibility_terms['outofstock'];
+		}
+
+		if ( ! empty( $product_visibility_not_in ) ) {
 			$query_args['tax_query'][] = array(
 				'taxonomy' => 'product_visibility',
 				'field'    => 'term_taxonomy_id',
-				'terms'    => $product_visibility_term_ids['exclude-from-catalog'],
+				'terms'    => $product_visibility_not_in,
 				'operator' => 'NOT IN',
 			);
-			$query_args['post_parent'] = 0;
 		}
 
 		if ( ! empty( $args['hide_free'] ) ) {
@@ -168,23 +178,12 @@ class VHC_WC_Bestsellers_Frontend {
 			);
 		}
 
-		if ( 'yes' === get_option( 'woocommerce_hide_out_of_stock_items' ) ) {
-			$query_args['tax_query'][] = array(
-				array(
-					'taxonomy' => 'product_visibility',
-					'field'    => 'term_taxonomy_id',
-					'terms'    => $product_visibility_term_ids['outofstock'],
-					'operator' => 'NOT IN',
-				),
-			);
-		}
-
 		switch ( $args['show'] ) {
 			case 'featured':
 				$query_args['tax_query'][] = array(
 					'taxonomy' => 'product_visibility',
 					'field'    => 'term_taxonomy_id',
-					'terms'    => $product_visibility_term_ids['featured'],
+					'terms'    => $product_visibility_terms['featured'],
 				);
 				break;
 			case 'onsale':

@@ -11,6 +11,10 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+if ( class_exists( 'VHC_WC_Bestsellers_Archive' ) ) {
+	return new VHC_WC_Bestsellers_Archive();
+}
+
 /**
  * VHC_WC_Bestsellers_Archive Class.
  */
@@ -36,9 +40,21 @@ class VHC_WC_Bestsellers_Archive {
 			add_filter( 'woocommerce_page_title', array( $this, 'page_title' ), 1 );
 			add_filter( 'woocommerce_get_breadcrumb', array( $this, 'get_breadcrumb' ), 1, 2 );
 			add_filter( 'document_title_parts', array( $this, 'change_page_title' ), 10 );
-			add_action( 'woocommerce_product_query', array( $this, 'parse_query' ) );
 			add_filter( 'wp_nav_menu_objects', array( $this, 'nav_menu_item_classes' ) );
+			add_action( 'woocommerce_product_query', array( $this, 'parse_query' ) );
 		}
+	}
+
+	/**
+	 * Check if current page is bestsellers archive page.
+	 *
+	 * @since 1.0.0
+	 * @return bool
+	 */
+	public function is_page() {
+		global $wp_query;
+
+		return $wp_query->is_vhcbs_archive && $this->page_id === $wp_query->queried_object_id;
 	}
 
 	/**
@@ -114,7 +130,7 @@ class VHC_WC_Bestsellers_Archive {
 	 * @return string
 	 */
 	public function page_title( $title ) {
-		if ( vhc_wc_bestsellers()->is_archive() ) {
+		if ( $this->is_page() ) {
 			$title = get_the_title( $this->page_id );
 		}
 
@@ -128,7 +144,7 @@ class VHC_WC_Bestsellers_Archive {
 	 * @return array
 	 */
 	public function get_breadcrumb( $crumbs ) {
-		if ( vhc_wc_bestsellers()->is_archive() ) {
+		if ( $this->is_page() ) {
 			$crumbs[1] = array( get_the_title( $this->page_id ), get_permalink( $this->page_id ) );
 		}
 		return $crumbs;
@@ -153,7 +169,7 @@ class VHC_WC_Bestsellers_Archive {
 	 * @return string
 	 */
 	public function change_page_title( $title ) {
-		if ( ! vhc_wc_bestsellers()->is_archive() ) {
+		if ( ! $this->is_page() ) {
 			return $title;
 		}
 
@@ -215,7 +231,7 @@ class VHC_WC_Bestsellers_Archive {
 	 * @return string
 	 */
 	public function wpseo_metadesc() {
-		return WPSEO_Meta::get_value( 'metadesc', wc_get_page_id( 'vhc_bestsellers' ) );
+		return WPSEO_Meta::get_value( 'metadesc', $this->page_id );
 	}
 
 	/**
@@ -226,7 +242,7 @@ class VHC_WC_Bestsellers_Archive {
 	 * @return string
 	 */
 	public function wpseo_metakey() {
-		return WPSEO_Meta::get_value( 'metakey', wc_get_page_id( 'vhc_bestsellers' ) );
+		return WPSEO_Meta::get_value( 'metakey', $this->page_id );
 	}
 
 	/**
@@ -237,7 +253,7 @@ class VHC_WC_Bestsellers_Archive {
 	 * @return string
 	 */
 	public function wpseo_title() {
-		return WPSEO_Meta::get_value( 'title', wc_get_page_id( 'vhc_bestsellers' ) );
+		return WPSEO_Meta::get_value( 'title', $this->page_id );
 	}
 
 	/**
@@ -247,7 +263,7 @@ class VHC_WC_Bestsellers_Archive {
 	 * @param object $q Query object.
 	 */
 	public function parse_query( $q ) {
-		if ( ! is_admin() && $q->is_main_query() && vhc_wc_bestsellers()->is_archive() ) {
+		if ( ! is_admin() && $q->is_main_query() && $this->is_page() ) {
 			$args           = apply_filters( 'vhc_wc_bestsellers_archive_query_args', array() );
 			$bs_product_ids = vhc_wc_bestsellers()->get_bestsellers( $args );
 			$bs_product_ids = empty( $bs_product_ids ) ? array( 0 ) : (array) $bs_product_ids;
@@ -255,6 +271,37 @@ class VHC_WC_Bestsellers_Archive {
 			$post_in        = array_merge( $post_in, $bs_product_ids );
 			$q->set( 'post__in', $post_in );
 			$q->set( 'orderby', 'post__in' );
+
+			$tax_query = $q->get( 'tax_query' );
+			if ( ! empty( $tax_query ) ) {
+				foreach ( $tax_query as $key => $value ) {
+					if ( is_array( $value ) && 'product_visibility' === $value['taxonomy'] && 'NOT IN' === $value['operator'] ) {
+						unset( $tax_query[ $key ] );
+					}
+				}
+			}
+
+			$product_visibility_terms  = wc_get_product_visibility_term_ids();
+			$product_visibility_not_in = array();
+
+			if ( 'yes' !== get_option( 'woocommerce_vhc_bestsellers_show_hidden', 'no' ) ) {
+				$product_visibility_not_in[] = $product_visibility_terms['exclude-from-catalog'];
+			}
+
+			if ( 'yes' === get_option( 'woocommerce_vhc_bestsellers_hide_out_of_stock', 'no' ) ) {
+				$product_visibility_not_in[] = $product_visibility_terms['outofstock'];
+			}
+
+			if ( ! empty( $product_visibility_not_in ) ) {
+				$tax_query[] = array(
+					'taxonomy' => 'product_visibility',
+					'field'    => 'term_taxonomy_id',
+					'terms'    => $product_visibility_not_in,
+					'operator' => 'NOT IN',
+				);
+			}
+
+			$q->set( 'tax_query', $tax_query );
 		}
 	}
 }

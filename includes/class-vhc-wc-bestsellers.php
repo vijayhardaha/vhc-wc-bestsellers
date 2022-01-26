@@ -32,6 +32,14 @@ final class VHC_WC_Bestsellers {
 	private $frontend;
 
 	/**
+	 * Archive class instance.
+	 *
+	 * @var VHC_WC_Bestsellers_Archive single instance of archive class.
+	 * @since 1.0.0
+	 */
+	private $archive;
+
+	/**
 	 * Admin notices to add.
 	 *
 	 * @var array Array of admin notices.
@@ -398,7 +406,7 @@ final class VHC_WC_Bestsellers {
 		// Frontend files.
 		if ( $this->is_request( 'frontend' ) ) {
 			$this->frontend = include_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/class-vhc-wc-bestsellers-frontend.php';
-			include_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/class-vhc-wc-bestsellers-archive.php';
+			$this->archive  = include_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/class-vhc-wc-bestsellers-archive.php';
 		}
 	}
 
@@ -484,6 +492,7 @@ final class VHC_WC_Bestsellers {
 	 * Return bestsellers.
 	 *
 	 * @param array $args Arguments array.
+	 * @since 1.0.0
 	 * @return array
 	 */
 	public function get_bestsellers( $args = array() ) {
@@ -493,11 +502,10 @@ final class VHC_WC_Bestsellers {
 	/**
 	 * Check if current page is bestsellers archive page.
 	 *
+	 * @since 1.0.0
 	 * @return bool
 	 */
 	public function is_archive() {
-		global $wp_query;
-
-		return $wp_query->is_vhcbs_archive && wc_get_page_id( 'vhc_bestsellers' ) === $wp_query->queried_object_id;
+		return $this->archive->is_page();
 	}
 }

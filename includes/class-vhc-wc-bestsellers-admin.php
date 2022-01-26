@@ -160,6 +160,20 @@ class VHC_WC_Bestsellers_Admin {
 					'default' => 'no',
 					'type'    => 'checkbox',
 				),
+				array(
+					'title'   => __( 'Show hidden products', 'vhc-wc-bestsellers' ),
+					'desc'    => __( 'Show hidden products in bestsellers archive.', 'vhc-wc-bestsellers' ),
+					'id'      => 'woocommerce_vhc_bestsellers_show_hidden',
+					'default' => 'no',
+					'type'    => 'checkbox',
+				),
+				array(
+					'title'   => __( 'Out of stock visibility', 'vhc-wc-bestsellers' ),
+					'desc'    => __( 'Hide out of stock items from the catalog.', 'vhc-wc-bestsellers' ),
+					'id'      => 'woocommerce_vhc_bestsellers_hide_out_of_stock',
+					'default' => 'no',
+					'type'    => 'checkbox',
+				),
 				array( 'type' => 'sectionend' ),
 			);
 

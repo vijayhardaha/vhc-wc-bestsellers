@@ -25,12 +25,12 @@ class VHC_WC_Widget_Bestsellers extends WC_Widget {
 		$this->widget_description = __( 'List of your store\'s bestsellers products.', 'vhc-wc-bestsellers' );
 		$this->widget_cssclass    = 'woocommerce widget_products vhc-wc-bs-products';
 		$this->settings           = array(
-			'title'       => array(
+			'title'             => array(
 				'type'  => 'text',
 				'std'   => __( 'Best Sellers', 'vhc-wc-bestsellers' ),
 				'label' => __( 'Title', 'vhc-wc-bestsellers' ),
 			),
-			'number'      => array(
+			'number'            => array(
 				'type'  => 'number',
 				'step'  => 1,
 				'min'   => 1,
@@ -38,13 +38,13 @@ class VHC_WC_Widget_Bestsellers extends WC_Widget {
 				'std'   => 10,
 				'label' => __( 'Number of products to show', 'vhc-wc-bestsellers' ),
 			),
-			'period'      => array(
+			'period'            => array(
 				'type'    => 'select',
 				'std'     => 'last-7-days',
 				'label'   => __( 'Sales Period', 'vhc-wc-bestsellers' ),
 				'options' => VHC_WC_Bestsellers_Admin::sales_periods(),
 			),
-			'show'        => array(
+			'show'              => array(
 				'type'    => 'select',
 				'std'     => '',
 				'label'   => __( 'Show', 'vhc-wc-bestsellers' ),
@@ -54,15 +54,20 @@ class VHC_WC_Widget_Bestsellers extends WC_Widget {
 					'onsale'   => __( 'On-sale products', 'vhc-wc-bestsellers' ),
 				),
 			),
-			'hide_free'   => array(
+			'hide_free'         => array(
 				'type'  => 'checkbox',
 				'std'   => 0,
 				'label' => __( 'Hide free products', 'vhc-wc-bestsellers' ),
 			),
-			'show_hidden' => array(
+			'show_hidden'       => array(
 				'type'  => 'checkbox',
 				'std'   => 0,
 				'label' => __( 'Show hidden products', 'vhc-wc-bestsellers' ),
+			),
+			'hide_out_of_stock' => array(
+				'type'  => 'checkbox',
+				'std'   => 0,
+				'label' => __( 'Hide out of stock products', 'vhc-wc-bestsellers' ),
 			),
 		);
 
@@ -83,12 +88,13 @@ class VHC_WC_Widget_Bestsellers extends WC_Widget {
 		$show   = ! empty( $instance['show'] ) ? sanitize_title( $instance['show'] ) : $this->settings['show']['std'];
 
 		$query_args = array(
-			'period'      => $period,
-			'limit'       => $number,
-			'hide_free'   => empty( $instance['hide_free'] ) ? false : true,
-			'show_hidden' => empty( $instance['show_hidden'] ) ? false : true,
-			'show'        => $show,
-			'return'      => 'query_objects',
+			'period'            => $period,
+			'limit'             => $number,
+			'hide_free'         => empty( $instance['hide_free'] ) ? false : true,
+			'show_hidden'       => empty( $instance['show_hidden'] ) ? false : true,
+			'hide_out_of_stock' => empty( $instance['hide_out_of_stock'] ) ? false : true,
+			'show'              => $show,
+			'return'            => 'query_objects',
 		);
 
 		$query_args = apply_filters( 'vhc_wc_bestsellers_widget_query_args', $query_args, $args, $instance );
