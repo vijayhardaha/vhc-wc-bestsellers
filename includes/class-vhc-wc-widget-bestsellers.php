@@ -90,9 +90,9 @@ class VHC_WC_Widget_Bestsellers extends WC_Widget {
 		$query_args = array(
 			'period'            => $period,
 			'limit'             => $number,
-			'hide_free'         => empty( $instance['hide_free'] ) ? false : true,
-			'show_hidden'       => empty( $instance['show_hidden'] ) ? false : true,
-			'hide_out_of_stock' => empty( $instance['hide_out_of_stock'] ) ? false : true,
+			'hide_free'         => ! empty( $instance['hide_free'] ),
+			'show_hidden'       => ! empty( $instance['show_hidden'] ),
+			'hide_out_of_stock' => ! empty( $instance['hide_out_of_stock'] ),
 			'show'              => $show,
 			'return'            => 'query_objects',
 		);

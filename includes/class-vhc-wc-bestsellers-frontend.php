@@ -323,12 +323,13 @@ class VHC_WC_Bestsellers_Frontend {
 		$bs_product_ids = wp_list_pluck( $bs_products, 'product_id' );
 
 		$output_query_args = array(
-			'fields'      => 'ids',
-			'nopaging'    => true,
-			'post_status' => 'publish',
-			'post_type'   => 'product',
-			'orderby'     => 'post__in',
-			'post__in'    => $bs_product_ids,
+			'fields'        => 'ids',
+			'nopaging'      => true,
+			'no_found_rows' => true,
+			'post_status'   => 'publish',
+			'post_type'     => 'product',
+			'orderby'       => 'post__in',
+			'post__in'      => $bs_product_ids,
 		);
 
 		switch ( $args['return'] ) {
