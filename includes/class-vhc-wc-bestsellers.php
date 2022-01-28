@@ -1,9 +1,10 @@
 <?php
 /**
- * VHC WooCommerce Bestsellers Products setup
+ * VHC WooCommerce Bestsellers Products setup.
  *
  * @package VHC_WC_Bestsellers
  * @since 1.0.0
+ * @version 1.0.0
  */
 
 // Exit if accessed directly.

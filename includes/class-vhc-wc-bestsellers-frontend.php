@@ -6,6 +6,7 @@
  * @package VHC_WC_Bestsellers
  * @subpackage VHC_WC_Bestsellers/Frontend
  * @version 1.0.0
+ * @since 1.0.0
  */
 
 // Exit if accessed directly.

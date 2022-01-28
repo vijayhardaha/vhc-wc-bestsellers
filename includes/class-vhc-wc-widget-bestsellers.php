@@ -5,6 +5,7 @@
  * @class VHC_WC_Widget_Bestsellers
  * @package VHC_WC_Bestsellers
  * @subpackage VHC_WC_Bestsellers/Widget
+ * @since 1.0.0
  * @version 1.0.0
  */
 

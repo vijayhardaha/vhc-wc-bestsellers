@@ -5,6 +5,7 @@
  * @class VHC_WC_Bestsellers_Admin
  * @package VHC_WC_Bestsellers
  * @subpackage VHC_WC_Bestsellers/Admin
+ * @since 1.0.0
  * @version 1.0.0
  */
 
