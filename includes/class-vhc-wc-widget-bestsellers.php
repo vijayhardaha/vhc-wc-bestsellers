@@ -78,9 +78,9 @@ class VHC_WC_Widget_Bestsellers extends WC_Widget {
 	/**
 	 * Query the products and return them.
 	 *
+	 * @since 1.0.0
 	 * @param array $args     Arguments.
 	 * @param array $instance Widget instance.
-	 * @since 1.0.0
 	 * @return WP_Query
 	 */
 	public function get_products( $args, $instance ) {
@@ -106,9 +106,9 @@ class VHC_WC_Widget_Bestsellers extends WC_Widget {
 	/**
 	 * Output widget.
 	 *
+	 * @since 1.0.0
 	 * @param array $args     Arguments.
 	 * @param array $instance Widget instance.
-	 * @since 1.0.0
 	 * @see WP_Widget
 	 */
 	public function widget( $args, $instance ) {

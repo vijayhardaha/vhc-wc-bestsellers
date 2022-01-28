@@ -152,10 +152,9 @@ final class VHC_WC_Bestsellers {
 	/**
 	 * Define constant if not already set.
 	 *
+	 * @since 1.0.0
 	 * @param string      $name  Constant name.
 	 * @param string|bool $value Constant value.
-	 *
-	 * @since 1.0.0
 	 */
 	private function define( $name, $value ) {
 		if ( ! defined( $name ) ) {
@@ -166,9 +165,8 @@ final class VHC_WC_Bestsellers {
 	/**
 	 * What type of request is this?
 	 *
-	 * @param  string $type admin, ajax, cron or frontend.
-	 *
 	 * @since 1.0.0
+	 * @param string $type admin, ajax, cron or frontend.
 	 * @return bool
 	 */
 	private function is_request( $type ) {
@@ -325,7 +323,6 @@ final class VHC_WC_Bestsellers {
 	 * Adds an admin notice to be displayed.
 	 *
 	 * @since 1.0.0
-	 *
 	 * @param string $slug    The slug for the notice.
 	 * @param string $class   The css class for the notice.
 	 * @param string $message The notice message.
@@ -492,8 +489,8 @@ final class VHC_WC_Bestsellers {
 	/**
 	 * Return bestsellers.
 	 *
-	 * @param array $args Arguments array.
 	 * @since 1.0.0
+	 * @param array $args Arguments array.
 	 * @return array
 	 */
 	public function get_bestsellers( $args = array() ) {

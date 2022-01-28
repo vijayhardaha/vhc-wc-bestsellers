@@ -60,10 +60,10 @@ class VHC_WC_Bestsellers_Archive {
 	}
 
 	/**
-	 * Modify template loader
+	 * Modify template loader.
 	 *
-	 * @param string $template template path.
 	 * @since 1.0.0
+	 * @param string $template template path.
 	 * @return string
 	 */
 	public function template_loader( $template ) {
@@ -86,10 +86,10 @@ class VHC_WC_Bestsellers_Archive {
 	}
 
 	/**
-	 * Filter post query
+	 * Filter post query.
 	 *
-	 * @param object $q query object.
 	 * @since 1.0.0
+	 * @param object $q query object.
 	 */
 	public function pre_get_posts( $q ) {
 		// We only want to affect the main query.
@@ -125,7 +125,7 @@ class VHC_WC_Bestsellers_Archive {
 	}
 
 	/**
-	 * Filter WC Page title
+	 * Filter WC Page title.
 	 *
 	 * @since 1.0.0
 	 * @param string $title page title.
@@ -140,8 +140,9 @@ class VHC_WC_Bestsellers_Archive {
 	}
 
 	/**
-	 * Filter WC breadcrumb
+	 * Filter WC breadcrumb.
 	 *
+	 * @since 1.0.0
 	 * @param array $crumbs breadcrumbs array list.
 	 * @return array
 	 */
@@ -155,8 +156,8 @@ class VHC_WC_Bestsellers_Archive {
 	/**
 	 * Set is filtered is true to skip displaying categories only on page.
 	 *
-	 * @param int $id page id.
 	 * @since 1.0.0
+	 * @param int $id page id.
 	 * @return bool
 	 */
 	public function is_filtered( $id ) {
@@ -166,8 +167,8 @@ class VHC_WC_Bestsellers_Archive {
 	/**
 	 * Change title for custom archive page.
 	 *
-	 * @param string $title page title.
 	 * @since 1.0.0
+	 * @param string $title page title.
 	 * @return string
 	 */
 	public function change_page_title( $title ) {
@@ -183,8 +184,8 @@ class VHC_WC_Bestsellers_Archive {
 	/**
 	 * Fix active class in nav for auction page.
 	 *
-	 * @param array $menu_items menu items array.
 	 * @since 1.0.0
+	 * @param array $menu_items menu items array.
 	 * @return array
 	 */
 	public function nav_menu_item_classes( $menu_items ) {
@@ -310,6 +311,7 @@ class VHC_WC_Bestsellers_Archive {
 	/**
 	 * Adjust visibility if show hidden it true.
 	 *
+	 * @since 1.0.0
 	 * @param bool $visibility Visibility status.
 	 * @return bool
 	 */

@@ -39,8 +39,8 @@ class VHC_WC_Bestsellers_Admin {
 	/**
 	 * Return the plugin action links.
 	 *
-	 * @param array $actions Associative array of action names to anchor tags.
 	 * @since 1.0.0
+	 * @param array $actions Associative array of action names to anchor tags.
 	 * @return array
 	 */
 	public function plugin_manage_link( $actions ) {
@@ -99,8 +99,8 @@ class VHC_WC_Bestsellers_Admin {
 	/**
 	 * Add setting section in product settings
 	 *
-	 * @param array $sections Sections array.
 	 * @since 1.0.0
+	 * @param array $sections Sections array.
 	 * @return array
 	 */
 	public function add_setting_setion( $sections ) {
@@ -111,9 +111,9 @@ class VHC_WC_Bestsellers_Admin {
 	/**
 	 * Display admin settings.
 	 *
+	 * @since 1.0.0
 	 * @param array  $settings Settings array.
 	 * @param string $section_id Current section id.
-	 * @since 1.0.0
 	 * @return array
 	 */
 	public function add_settings( $settings, $section_id ) {

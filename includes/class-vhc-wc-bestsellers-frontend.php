@@ -32,8 +32,8 @@ class VHC_WC_Bestsellers_Frontend {
 	/**
 	 * Parse args for report data.
 	 *
-	 * @param array $args Report args.
 	 * @since 1.0.0
+	 * @param array $args Report args.
 	 * @return array
 	 */
 	private function parse_args( $args ) {
@@ -61,9 +61,8 @@ class VHC_WC_Bestsellers_Frontend {
 	/**
 	 * Calculate sales period range.
 	 *
-	 * @param string $period Period range.
-	 *
 	 * @since 1.0.0
+	 * @param string $period Period range.
 	 * @return array.
 	 */
 	private function calculate_range( $period = '' ) {
@@ -133,8 +132,8 @@ class VHC_WC_Bestsellers_Frontend {
 	/**
 	 * Return queried product ids from query args.
 	 *
-	 * @param array $args Arguments for product query.
 	 * @since 1.0.0
+	 * @param array $args Arguments for product query.
 	 * @return array
 	 */
 	private function query_products( $args = array() ) {
@@ -235,8 +234,8 @@ class VHC_WC_Bestsellers_Frontend {
 	/**
 	 * Return bestsellers.
 	 *
-	 * @param array $args Arguments array.
 	 * @since 1.0.0
+	 * @param array $args Arguments array.
 	 * @return array
 	 */
 	public function get_bestsellers( $args = array() ) {
@@ -354,8 +353,8 @@ class VHC_WC_Bestsellers_Frontend {
 	/**
 	 * Callback to bestsellers shortcode.
 	 *
-	 * @param array $atts Shortcode attributes.
 	 * @since 1.0.0
+	 * @param array $atts Shortcode attributes.
 	 * @return string Shortcode output.
 	 */
 	public function bestsellers_shortcode( $atts ) {
