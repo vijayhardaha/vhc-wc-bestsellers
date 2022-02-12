@@ -167,7 +167,7 @@ class VHC_WC_Bestsellers_Updater {
 	 * @return string|bool
 	 */
 	public function get_remote_version() {
-		$remote = get_remote_information();
+		$remote = $this->get_remote_information();
 		if ( empty( $remote ) ) {
 			return false;
 		}
