@@ -1,7 +1,7 @@
 {
   "name": "vhc-wc-bestsellers",
   "pluginName": "VHC WooCommerce Bestsellers",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Displays bestselling products of your store from a specific time period. You can show them on a Best Sellers page, shortcode or through a widget. You can also customize many things with WordPress hooks.",
   "main": "gulpfile.js",
   "scripts": {

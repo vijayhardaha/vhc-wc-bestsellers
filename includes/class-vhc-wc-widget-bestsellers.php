@@ -117,6 +117,12 @@ class VHC_WC_Widget_Bestsellers extends WC_Widget {
 	 * @see WP_Widget
 	 */
 	public function widget( $args, $instance ) {
+		// Disable widget conditionally on some pages.
+		$disabled = apply_filters( 'vhc_wc_bestsellers_widget_disabled', false );
+		if ( $disabled ) {
+			return;
+		}
+
 		wc_set_loop_prop( 'name', 'widget' );
 
 		$products = $this->get_products( $args, $instance );
