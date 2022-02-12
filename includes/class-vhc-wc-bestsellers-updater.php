@@ -28,6 +28,7 @@ class VHC_WC_Bestsellers_Updater {
 	public function __construct() {
 		add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'check_update' ), 10, 1 );
 		add_filter( 'plugins_api', array( $this, 'check_info' ), 20, 3 );
+		add_filter( 'upgrader_post_install', array( $this, 'after_install' ), 10, 3 );
 	}
 
 	/**
@@ -258,6 +259,30 @@ class VHC_WC_Bestsellers_Updater {
 		}
 
 		return $transient;
+	}
+
+	/**
+	 * Upgrader/Updater
+	 *
+	 * @since 1.0.3
+	 *
+	 * @param boolean $response     Response status (always true).
+	 * @param mixed   $hook_extra   Extra hooks.
+	 * @param array   $result       The result of the move.
+	 * @return array
+	 */
+	public function after_install( $response, $hook_extra, $result ) {
+		global $wp_filesystem;
+
+		$install_directory = plugin_dir_path( VHC_WC_BESTSELLERS_PLUGIN_FILE );
+		$wp_filesystem->move( $result['destination'], $install_directory );
+		$result['destination'] = $install_directory;
+
+		if ( is_plugin_active( $this->get_plugin_base() ) ) {
+			activate_plugin( $this->get_plugin_base() );
+		}
+
+		return $result;
 	}
 }
 
