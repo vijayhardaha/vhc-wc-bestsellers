@@ -28,7 +28,6 @@ class VHC_WC_Bestsellers_Updater {
 	public function __construct() {
 		add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'check_update' ), 10, 1 );
 		add_filter( 'plugins_api', array( $this, 'check_info' ), 20, 3 );
-		add_filter( 'upgrader_post_install', array( $this, 'after_install' ), 10, 3 );
 	}
 
 	/**
@@ -37,8 +36,18 @@ class VHC_WC_Bestsellers_Updater {
 	 * @since 1.0.3
 	 * @return array
 	 */
-	public function get_plugin_data() {
+	private function get_plugin_data() {
 		return get_plugin_data( VHC_WC_BESTSELLERS_PLUGIN_FILE );
+	}
+
+	/**
+	 * Get plugin name.
+	 *
+	 * @since 1.0.3
+	 * @return string
+	 */
+	private function get_plugin_name() {
+		return VHC_WC_BESTSELLERS_PLUGIN_NAME;
 	}
 
 	/**
@@ -47,7 +56,7 @@ class VHC_WC_Bestsellers_Updater {
 	 * @since 1.0.3
 	 * @return string
 	 */
-	public function get_current_version() {
+	private function get_current_version() {
 		return VHC_WC_BESTSELLERS_VERSION;
 	}
 
@@ -57,7 +66,7 @@ class VHC_WC_Bestsellers_Updater {
 	 * @since 1.0.3
 	 * @return string
 	 */
-	public function get_plugin_base() {
+	private function get_plugin_base() {
 		return VHC_WC_BESTSELLERS_PLUGIN_BASENAME;
 	}
 
@@ -67,8 +76,8 @@ class VHC_WC_Bestsellers_Updater {
 	 * @since 1.0.3
 	 * @return string
 	 */
-	public function get_plugin_slug() {
-		$slug_args = explode( '/', VHC_WC_BESTSELLERS_PLUGIN_BASENAME );
+	private function get_plugin_slug() {
+		$slug_args = explode( '/', $this->get_plugin_base() );
 		return str_replace( '.php', '', $slug_args[1] );
 	}
 
@@ -78,7 +87,7 @@ class VHC_WC_Bestsellers_Updater {
 	 * @since 1.0.3
 	 * @return string
 	 */
-	public function get_remote_url() {
+	private function get_remote_url() {
 		return sprintf( 'https://api.github.com/repos/%s/%s/releases', 'vijayhardaha', $this->get_plugin_slug() );
 	}
 
@@ -87,7 +96,7 @@ class VHC_WC_Bestsellers_Updater {
 	 *
 	 * @return string|bool
 	 */
-	public function get_auth_token() {
+	private function get_auth_token() {
 		return false;
 	}
 
@@ -100,8 +109,8 @@ class VHC_WC_Bestsellers_Updater {
 	 *
 	 * @return string
 	 */
-	public function build_download_url( $tag ) {
-		return sprintf( 'https://github.com/%s/%s/archive/refs/tags/%s.zip', 'vijayhardaha', $this->get_plugin_slug(), $tag );
+	private function build_download_url( $tag ) {
+		return sprintf( 'https://github.com/%1$s/%2$s/releases/download/%3$s/%2$s.zip', 'vijayhardaha', $this->get_plugin_slug(), $tag );
 	}
 
 	/**
@@ -124,7 +133,7 @@ class VHC_WC_Bestsellers_Updater {
 	 * @since 1.0.3
 	 * @return bool|object
 	 */
-	public function get_remote_information() {
+	private function get_remote_information() {
 		$filter_add = true;
 
 		if ( function_exists( 'curl_version' ) ) {
@@ -167,7 +176,7 @@ class VHC_WC_Bestsellers_Updater {
 	 * @since 1.0.3
 	 * @return string|bool
 	 */
-	public function get_remote_version() {
+	private function get_remote_version() {
 		$remote = $this->get_remote_information();
 		if ( empty( $remote ) ) {
 			return false;
@@ -250,7 +259,7 @@ class VHC_WC_Bestsellers_Updater {
 		// If a newer version is available, add the update.
 		if ( ! empty( $remote_version ) && version_compare( $this->get_current_version(), $sanitized_version, '<' ) ) {
 			$obj                                 = new stdClass();
-			$obj->name                           = VHC_WC_BESTSELLERS_PLUGIN_NAME;
+			$obj->name                           = $this->get_plugin_name();
 			$obj->slug                           = $this->get_plugin_slug();
 			$obj->plugin                         = $this->get_plugin_base();
 			$obj->new_version                    = $sanitized_version;
@@ -259,30 +268,6 @@ class VHC_WC_Bestsellers_Updater {
 		}
 
 		return $transient;
-	}
-
-	/**
-	 * Upgrader/Updater
-	 *
-	 * @since 1.0.3
-	 *
-	 * @param boolean $response     Response status (always true).
-	 * @param mixed   $hook_extra   Extra hooks.
-	 * @param array   $result       The result of the move.
-	 * @return array
-	 */
-	public function after_install( $response, $hook_extra, $result ) {
-		global $wp_filesystem;
-
-		$install_directory = plugin_dir_path( VHC_WC_BESTSELLERS_PLUGIN_FILE );
-		$wp_filesystem->move( $result['destination'], $install_directory );
-		$result['destination'] = $install_directory;
-
-		if ( is_plugin_active( $this->get_plugin_base() ) ) {
-			activate_plugin( $this->get_plugin_base() );
-		}
-
-		return $result;
 	}
 }
 
