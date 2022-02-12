@@ -1,12 +1,11 @@
 <?php
 /**
- * VHC WooCommerce Bestsellers Archive
+ * VHC WooCommerce Bestsellers Archive Class.
  *
- * @class VHC_WC_Bestsellers_Archive
  * @package VHC_WC_Bestsellers
- * @subpackage VHC_WC_Bestsellers/Archive
- * @version 1.0.0
+ * @subpackage VHC_WC_Bestsellers\Classes\Archive
  * @since 1.0.0
+ * @version 1.0.1
  */
 
 // Exit if accessed directly.
@@ -20,6 +19,7 @@ if ( class_exists( 'VHC_WC_Bestsellers_Archive' ) ) {
  * VHC_WC_Bestsellers_Archive Class.
  */
 class VHC_WC_Bestsellers_Archive {
+
 	/**
 	 * Bestsellers page id.
 	 *
@@ -63,7 +63,9 @@ class VHC_WC_Bestsellers_Archive {
 	 * Modify template loader.
 	 *
 	 * @since 1.0.0
-	 * @param string $template template path.
+	 *
+	 * @param string $template      Template path.
+	 *
 	 * @return string
 	 */
 	public function template_loader( $template ) {
@@ -89,7 +91,8 @@ class VHC_WC_Bestsellers_Archive {
 	 * Filter post query.
 	 *
 	 * @since 1.0.0
-	 * @param object $q query object.
+	 *
+	 * @param object $q     Query object.
 	 */
 	public function pre_get_posts( $q ) {
 		// We only want to affect the main query.
@@ -115,6 +118,9 @@ class VHC_WC_Bestsellers_Archive {
 
 			add_filter( 'woocommerce_is_filtered', array( $this, 'is_filtered' ), 99 ); // hack for displaying when Shop Page Display is set to show categories.
 
+			// Remove description.
+			remove_action( 'woocommerce_archive_description', 'woocommerce_product_archive_description', 10 );
+
 			// Fix WP SEO.
 			if ( class_exists( 'WPSEO_Meta' ) ) {
 				add_filter( 'wpseo_metadesc', array( $this, 'wpseo_metadesc' ) );
@@ -128,7 +134,9 @@ class VHC_WC_Bestsellers_Archive {
 	 * Filter WC Page title.
 	 *
 	 * @since 1.0.0
-	 * @param string $title page title.
+	 *
+	 * @param string $title     Page title.
+	 *
 	 * @return string
 	 */
 	public function page_title( $title ) {
@@ -143,7 +151,9 @@ class VHC_WC_Bestsellers_Archive {
 	 * Filter WC breadcrumb.
 	 *
 	 * @since 1.0.0
-	 * @param array $crumbs breadcrumbs array list.
+	 *
+	 * @param array $crumbs     Breadcrumbs array list.
+	 *
 	 * @return array
 	 */
 	public function get_breadcrumb( $crumbs ) {
@@ -157,7 +167,9 @@ class VHC_WC_Bestsellers_Archive {
 	 * Set is filtered is true to skip displaying categories only on page.
 	 *
 	 * @since 1.0.0
-	 * @param int $id page id.
+	 *
+	 * @param int $id   Page ID.
+	 *
 	 * @return bool
 	 */
 	public function is_filtered( $id ) {
@@ -168,7 +180,9 @@ class VHC_WC_Bestsellers_Archive {
 	 * Change title for custom archive page.
 	 *
 	 * @since 1.0.0
-	 * @param string $title page title.
+	 *
+	 * @param string $title     Page title.
+	 *
 	 * @return string
 	 */
 	public function change_page_title( $title ) {
@@ -185,7 +199,9 @@ class VHC_WC_Bestsellers_Archive {
 	 * Fix active class in nav for auction page.
 	 *
 	 * @since 1.0.0
-	 * @param array $menu_items menu items array.
+	 *
+	 * @param array $menu_items     Menu items array.
+	 *
 	 * @return array
 	 */
 	public function nav_menu_item_classes( $menu_items ) {
@@ -263,7 +279,8 @@ class VHC_WC_Bestsellers_Archive {
 	 * Exclude restricted & excluded categories from release page
 	 *
 	 * @since 1.0.0
-	 * @param object $q Query object.
+	 *
+	 * @param object $q     Query object.
 	 */
 	public function parse_query( $q ) {
 		if ( ! is_admin() && $q->is_main_query() && $this->is_page() ) {
@@ -312,7 +329,9 @@ class VHC_WC_Bestsellers_Archive {
 	 * Adjust visibility if show hidden it true.
 	 *
 	 * @since 1.0.0
-	 * @param bool $visibility Visibility status.
+	 *
+	 * @param bool $visibility  Visibility status.
+	 *
 	 * @return bool
 	 */
 	public function adjust_visibility( $visibility ) {

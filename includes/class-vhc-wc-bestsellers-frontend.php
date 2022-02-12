@@ -1,12 +1,11 @@
 <?php
 /**
- * VHC WooCommerce Bestsellers Frontend
+ * VHC WooCommerce Bestsellers Frontend Class.
  *
- * @class VHC_WC_Bestsellers_Frontend
  * @package VHC_WC_Bestsellers
- * @subpackage VHC_WC_Bestsellers/Frontend
- * @version 1.0.0
+ * @subpackage VHC_WC_Bestsellers\Classes\Frontend
  * @since 1.0.0
+ * @version 1.0.1
  */
 
 // Exit if accessed directly.
@@ -20,6 +19,7 @@ if ( class_exists( 'VHC_WC_Bestsellers_Frontend' ) ) {
  * VHC_WC_Bestsellers_Frontend class.
  */
 class VHC_WC_Bestsellers_Frontend {
+
 	/**
 	 * Constructor.
 	 *
@@ -33,7 +33,9 @@ class VHC_WC_Bestsellers_Frontend {
 	 * Parse args for report data.
 	 *
 	 * @since 1.0.0
-	 * @param array $args Report args.
+	 *
+	 * @param array $args   Report args.
+	 *
 	 * @return array
 	 */
 	private function parse_args( $args ) {
@@ -62,7 +64,9 @@ class VHC_WC_Bestsellers_Frontend {
 	 * Calculate sales period range.
 	 *
 	 * @since 1.0.0
-	 * @param string $period Period range.
+	 *
+	 * @param string $period    Period range.
+	 *
 	 * @return array.
 	 */
 	private function calculate_range( $period = '' ) {
@@ -133,7 +137,9 @@ class VHC_WC_Bestsellers_Frontend {
 	 * Return queried product ids from query args.
 	 *
 	 * @since 1.0.0
-	 * @param array $args Arguments for product query.
+	 *
+	 * @param array $args   Arguments for product query.
+	 *
 	 * @return array
 	 */
 	private function query_products( $args = array() ) {
@@ -235,7 +241,9 @@ class VHC_WC_Bestsellers_Frontend {
 	 * Return bestsellers.
 	 *
 	 * @since 1.0.0
-	 * @param array $args Arguments array.
+	 *
+	 * @param array $args   Arguments array.
+	 *
 	 * @return array
 	 */
 	public function get_bestsellers( $args = array() ) {
@@ -354,7 +362,9 @@ class VHC_WC_Bestsellers_Frontend {
 	 * Callback to bestsellers shortcode.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @param array $atts Shortcode attributes.
+	 *
 	 * @return string Shortcode output.
 	 */
 	public function bestsellers_shortcode( $atts ) {
@@ -384,6 +394,7 @@ class VHC_WC_Bestsellers_Frontend {
 		$bs_products = $this->get_bestsellers( $query_args );
 
 		ob_start();
+
 		if ( $bs_products ) {
 			echo '<div class="woocommerce vhc-bestsellers">';
 

@@ -1,12 +1,11 @@
 <?php
 /**
- * VHC WooCommerce Bestsellers Products Admin
+ * VHC WooCommerce Bestsellers Admin Class.
  *
- * @class VHC_WC_Bestsellers_Admin
  * @package VHC_WC_Bestsellers
- * @subpackage VHC_WC_Bestsellers/Admin
+ * @subpackage VHC_WC_Bestsellers\Classes\Admin
  * @since 1.0.0
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 // Exit if accessed directly.
@@ -20,6 +19,7 @@ if ( class_exists( 'VHC_WC_Bestsellers_Admin' ) ) {
  * VHC_WC_Bestsellers_Admin class.
  */
 class VHC_WC_Bestsellers_Admin {
+
 	/**
 	 * Constructor.
 	 *
@@ -40,7 +40,9 @@ class VHC_WC_Bestsellers_Admin {
 	 * Return the plugin action links.
 	 *
 	 * @since 1.0.0
-	 * @param array $actions Associative array of action names to anchor tags.
+	 *
+	 * @param array $actions    Associative array of action names to anchor tags.
+	 *
 	 * @return array
 	 */
 	public function plugin_manage_link( $actions ) {
@@ -62,6 +64,7 @@ class VHC_WC_Bestsellers_Admin {
 	 * Returns bestsellers sales period options.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @return array
 	 */
 	public static function sales_periods() {
@@ -100,7 +103,9 @@ class VHC_WC_Bestsellers_Admin {
 	 * Add setting section in product settings
 	 *
 	 * @since 1.0.0
-	 * @param array $sections Sections array.
+	 *
+	 * @param array $sections   Sections array.
+	 *
 	 * @return array
 	 */
 	public function add_setting_setion( $sections ) {
@@ -112,8 +117,10 @@ class VHC_WC_Bestsellers_Admin {
 	 * Display admin settings.
 	 *
 	 * @since 1.0.0
-	 * @param array  $settings Settings array.
-	 * @param string $section_id Current section id.
+	 *
+	 * @param array  $settings      Settings array.
+	 * @param string $section_id    Current section id.
+	 *
 	 * @return array
 	 */
 	public function add_settings( $settings, $section_id ) {

@@ -6,7 +6,7 @@
  * @package VHC_WC_Bestsellers
  * @subpackage VHC_WC_Bestsellers/Widget
  * @since 1.0.0
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * Widget bestsellers products.
  */
 class VHC_WC_Widget_Bestsellers extends WC_Widget {
+
 	/**
 	 * Constructor.
 	 *
@@ -22,9 +23,9 @@ class VHC_WC_Widget_Bestsellers extends WC_Widget {
 	 */
 	public function __construct() {
 		$this->widget_id          = 'vhc_wc_bestsellers';
-		$this->widget_name        = __( 'VHC Bestsellers List', 'vhc-wc-bestsellers' );
-		$this->widget_description = __( 'List of your store\'s bestsellers products.', 'vhc-wc-bestsellers' );
 		$this->widget_cssclass    = 'woocommerce widget_products vhc-wc-bs-products';
+		$this->widget_name        = __( 'VHC Bestsellers List', 'vhc-wc-bestsellers' );
+		$this->widget_description = __( 'Displays bestsellers products list.', 'vhc-wc-bestsellers' );
 		$this->settings           = array(
 			'title'             => array(
 				'type'  => 'text',
@@ -79,8 +80,10 @@ class VHC_WC_Widget_Bestsellers extends WC_Widget {
 	 * Query the products and return them.
 	 *
 	 * @since 1.0.0
-	 * @param array $args     Arguments.
-	 * @param array $instance Widget instance.
+	 *
+	 * @param array $args       Arguments.
+	 * @param array $instance   Widget instance.
+	 *
 	 * @return WP_Query
 	 */
 	public function get_products( $args, $instance ) {
@@ -107,13 +110,13 @@ class VHC_WC_Widget_Bestsellers extends WC_Widget {
 	 * Output widget.
 	 *
 	 * @since 1.0.0
-	 * @param array $args     Arguments.
-	 * @param array $instance Widget instance.
+	 *
+	 * @param array $args       Arguments.
+	 * @param array $instance   Widget instance.
+	 *
 	 * @see WP_Widget
 	 */
 	public function widget( $args, $instance ) {
-		ob_start();
-
 		wc_set_loop_prop( 'name', 'widget' );
 
 		$products = $this->get_products( $args, $instance );

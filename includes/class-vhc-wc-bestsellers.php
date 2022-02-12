@@ -1,10 +1,11 @@
 <?php
 /**
- * VHC WooCommerce Bestsellers Products setup.
+ * VHC WooCommerce Bestsellers Setup Class.
  *
  * @package VHC_WC_Bestsellers
+ * @subpackage VHC_WC_Bestsellers\Classes
  * @since 1.0.0
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 // Exit if accessed directly.
@@ -16,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @class VHC_WC_Bestsellers
  */
 final class VHC_WC_Bestsellers {
+
 	/**
 	 * This class instance.
 	 *
@@ -153,8 +155,9 @@ final class VHC_WC_Bestsellers {
 	 * Define constant if not already set.
 	 *
 	 * @since 1.0.0
-	 * @param string      $name  Constant name.
-	 * @param string|bool $value Constant value.
+	 *
+	 * @param string      $name     Constant name.
+	 * @param string|bool $value    Constant value.
 	 */
 	private function define( $name, $value ) {
 		if ( ! defined( $name ) ) {
@@ -166,7 +169,9 @@ final class VHC_WC_Bestsellers {
 	 * What type of request is this?
 	 *
 	 * @since 1.0.0
-	 * @param string $type admin, ajax, cron or frontend.
+	 *
+	 * @param string $type      admin, ajax, cron or frontend.
+	 *
 	 * @return bool
 	 */
 	private function is_request( $type ) {
@@ -323,9 +328,9 @@ final class VHC_WC_Bestsellers {
 	 * Adds an admin notice to be displayed.
 	 *
 	 * @since 1.0.0
-	 * @param string $slug    The slug for the notice.
-	 * @param string $class   The css class for the notice.
-	 * @param string $message The notice message.
+	 * @param string $slug      The slug for the notice.
+	 * @param string $class     The css class for the notice.
+	 * @param string $message   The notice message.
 	 */
 	private function add_admin_notice( $slug, $class, $message ) {
 		$this->notices[ $slug ] = array(
@@ -473,7 +478,7 @@ final class VHC_WC_Bestsellers {
 	}
 
 	/**
-	 * Get Ajax URL.
+	 * Get ajax url.
 	 *
 	 * @since 1.0.0
 	 * @return string
