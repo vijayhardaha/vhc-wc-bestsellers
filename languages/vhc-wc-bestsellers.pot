@@ -1,0 +1,232 @@
+# Copyright (C) 2022 Vijay Hardaha
+# This file is distributed under the GNU General Public License v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: VHC WooCommerce Bestsellers 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/vhc-wc-bestsellers\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2022-09-01T20:08:59+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.6.0\n"
+"X-Domain: vhc-wc-bestsellers\n"
+
+#. Plugin Name of the plugin
+msgid "VHC WooCommerce Bestsellers"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://github.com/vijayhardaha/vhc-wc-bestsellers/"
+msgstr ""
+
+#. Description of the plugin
+msgid "Displays your store's bestselling products from a specific period of time. These can be displayed through a Best Sellers page or a shortcode/widget."
+msgstr ""
+
+#. Author of the plugin
+msgid "Vijay Hardaha"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://twitter.com/vijayhardaha/"
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:52
+msgid "Settings"
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:65
+msgid "Today"
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:66
+msgid "Yesterday"
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:67
+msgid "Last 2 days"
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:68
+msgid "Last 3 days"
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:69
+msgid "Last 7 days"
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:70
+msgid "Last 14 days"
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:71
+msgid "Last 30 days"
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:72
+msgid "This month"
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:73
+msgid "Last month"
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:74
+msgid "Last 2 months"
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:75
+msgid "Last 3 months"
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:76
+msgid "Last 6 months"
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:77
+msgid "Last 12 months"
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:78
+msgid "This year"
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:79
+msgid "Last year"
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:80
+msgid "All time"
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:103
+#: includes/class-vhc-wc-bestsellers-admin.php:119
+msgid "VHC Bestsellers"
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:123
+msgid "Bestsellers page"
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:124
+msgid "The base page for bestsellers catalog."
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:131
+msgid "Sales period"
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:132
+msgid "Default sales period for bestsellers catalog."
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:140
+msgid "Limit"
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:141
+msgid "Number of products to show as bestsellers catalog."
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:154
+#: includes/class-vhc-wc-widget-bestsellers.php:58
+msgid "Hide free products"
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:155
+msgid "Hide free products from bestsellers catalog."
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:161
+#: includes/class-vhc-wc-widget-bestsellers.php:63
+msgid "Show hidden products"
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:162
+msgid "Show hidden products in bestsellers catalog."
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:168
+msgid "Out of stock visibility"
+msgstr ""
+
+#: includes/class-vhc-wc-bestsellers-admin.php:169
+msgid "Hide out of stock items from the bestsellers catalog."
+msgstr ""
+
+#. translators: 1: Error Message 2: File Name and Path 3: Line Number
+#: includes/class-vhc-wc-bestsellers.php:124
+msgid "%1$s in %2$s on line %3$s"
+msgstr ""
+
+#. translators: 1: Plugin Name 2: Incompatible Environment Message
+#: includes/class-vhc-wc-bestsellers.php:173
+msgid "%1$s could not be activated. %2$s"
+msgstr ""
+
+#. translators: 1: Plugin Name 2: Incompatible Environment Message
+#: includes/class-vhc-wc-bestsellers.php:194
+msgid "%1$s has been deactivated. %2$s"
+msgstr ""
+
+#. translators: 1: Plugin Name 2: Minimum WP Version 3: Update Url 4: Close Anchor Tag
+#: includes/class-vhc-wc-bestsellers.php:214
+msgid "%1$s requires WordPress version %2$s or higher. Please %3$supdate WordPress &raquo;%4$s"
+msgstr ""
+
+#. translators: 1: Plugin Name 2: Required Plugins Names
+#: includes/class-vhc-wc-bestsellers.php:230
+msgid "%1$s  is enabled but not effective. It requires %2$s in order to work."
+msgstr ""
+
+#. translators: 1: Minimum PHP Version 2: Current PHP Version
+#: includes/class-vhc-wc-bestsellers.php:346
+msgid "The minimum PHP version required for this plugin is %1$s. You are running %2$s."
+msgstr ""
+
+#: includes/class-vhc-wc-widget-bestsellers.php:23
+msgid "VHC Bestsellers List"
+msgstr ""
+
+#: includes/class-vhc-wc-widget-bestsellers.php:24
+msgid "Displays bestsellers products list."
+msgstr ""
+
+#: includes/class-vhc-wc-widget-bestsellers.php:28
+msgid "Best Sellers"
+msgstr ""
+
+#: includes/class-vhc-wc-widget-bestsellers.php:29
+msgid "Title"
+msgstr ""
+
+#: includes/class-vhc-wc-widget-bestsellers.php:37
+msgid "Number of products to show"
+msgstr ""
+
+#: includes/class-vhc-wc-widget-bestsellers.php:42
+msgid "Sales Period"
+msgstr ""
+
+#: includes/class-vhc-wc-widget-bestsellers.php:48
+msgid "Show"
+msgstr ""
+
+#: includes/class-vhc-wc-widget-bestsellers.php:50
+msgid "All products"
+msgstr ""
+
+#: includes/class-vhc-wc-widget-bestsellers.php:51
+msgid "Featured products"
+msgstr ""
+
+#: includes/class-vhc-wc-widget-bestsellers.php:52
+msgid "On-sale products"
+msgstr ""
+
+#: includes/class-vhc-wc-widget-bestsellers.php:68
+msgid "Hide out of stock products"
+msgstr ""
