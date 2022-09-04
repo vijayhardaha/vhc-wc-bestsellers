@@ -1,13 +1,13 @@
 {
-  "name": "vhc-wc-bestsellers",
-  "version": "1.0.0",
-  "license": "GPLv2+",
-  "author": "Vijay Hardaha <https://twitter.com/vijayhardaha>",
-  "homepage": "https://github.com/vijayhardaha/vhc-wc-bestsellers#readme",
-  "scripts": {
-    "makepot": "wp i18n make-pot . --exclude=\"node_modules,vendor\" --slug=vhc-wc-bestsellers",
-    "lint": "composer run-script lint",
-    "prezip": "rm -rf vhc-wc-bestsellers.zip",
-    "zip": "zip -r vhc-wc-bestsellers.zip ./*.php includes languages"
-  }
+	"name": "vhc-wc-bestsellers",
+	"version": "1.0.0",
+	"license": "GPLv2+",
+	"author": "Vijay Hardaha <https://twitter.com/vijayhardaha>",
+	"homepage": "https://github.com/vijayhardaha/vhc-wc-bestsellers#readme",
+	"scripts": {
+		"lint": "composer run-script lint",
+		"prezip": "rm -rf vhc-wc-bestsellers.zip",
+		"zip": "zip -r vhc-wc-bestsellers.zip ./*.php includes languages",
+		"makepot": "wp i18n make-pot . --exclude=\"node_modules,vendor\" --slug=vhc-wc-bestsellers"
+	}
 }
