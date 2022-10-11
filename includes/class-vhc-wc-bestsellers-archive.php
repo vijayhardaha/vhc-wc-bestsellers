@@ -52,7 +52,7 @@ class VHC_WC_Bestsellers_Archive {
 	public function is_page() {
 		global $wp_query;
 
-		return $wp_query->is_vhcbs_archive && $this->page_id === $wp_query->queried_object_id;
+		return ! is_admin() && $wp_query->is_vhcbs_archive && $this->page_id === $wp_query->queried_object_id;
 	}
 
 	/**
@@ -114,6 +114,9 @@ class VHC_WC_Bestsellers_Archive {
 			// Remove description.
 			remove_action( 'woocommerce_archive_description', 'woocommerce_product_archive_description', 10 );
 
+			// Fix page id for description function.
+			add_filter( 'woocommerce_shop_page_id_for_archive_description', array( $this, 'fix_page_id' ) );
+
 			// Fix WP SEO.
 			if ( class_exists( 'WPSEO_Meta' ) ) {
 				add_filter( 'wpseo_metadesc', array( $this, 'wpseo_metadesc' ) );
@@ -121,6 +124,19 @@ class VHC_WC_Bestsellers_Archive {
 				add_filter( 'wpseo_title', array( $this, 'wpseo_title' ) );
 			}
 		}
+	}
+
+	/**
+	 * Fix page ID for custom archive pages description.
+	 *
+	 * @param int $page_id Page ID.
+	 */
+	public function fix_page_id( $page_id ) {
+		if ( $this->is_page() ) {
+			$page_id = $this->page_id;
+		}
+
+		return $page_id;
 	}
 
 	/**
@@ -271,6 +287,7 @@ class VHC_WC_Bestsellers_Archive {
 			$bs_product_ids = empty( $bs_product_ids ) ? array( 0 ) : (array) $bs_product_ids;
 			$post_in        = (array) $q->get( 'post__in' );
 			$post_in        = array_merge( $post_in, $bs_product_ids );
+
 			$q->set( 'post__in', $post_in );
 			$q->set( 'orderby', 'post__in' );
 
