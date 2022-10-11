@@ -3,7 +3,7 @@
  * Plugin Name: VHC WooCommerce Bestsellers
  * Plugin URI: https://github.com/vijayhardaha/vhc-wc-bestsellers/
  * Description: Displays your store's bestselling products from a specific period of time. These can be displayed through a Best Sellers page or a shortcode/widget.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Vijay Hardaha
  * Author URI: https://twitter.com/vijayhardaha/
  * License: GNU General Public License v2 or later
