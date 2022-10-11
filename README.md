@@ -4,12 +4,12 @@ Display best sellers products of your store from a specific time period. You can
 
 ## Features & Benefits
 
-- Display bestsellers products from specific date range.
-- Display bestsellers via widget.
-- Display bestsellers via shortcode.
-- Filter support in widget and backend.
-- Bestsellers archive page with pagination.
-- Easy customizations with WordPress hooks.
+-   Display bestsellers products from specific date range.
+-   Display bestsellers via widget.
+-   Display bestsellers via shortcode.
+-   Filter support in widget and backend.
+-   Bestsellers archive page with pagination.
+-   Easy customizations with WordPress hooks.
 
 ## License
 

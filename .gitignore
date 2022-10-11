@@ -2,64 +2,29 @@
 .DS_Store
 Thumbs.db
 
-# IDE
-.idea
-.vscode/*
-.project
-.settings*
-.sublimelinterrc
-*.sublime-project
-*.sublime-workspace
-project.properties
-project.xml
-
 # Logs
 *.log
 logs/
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# Environment
-.pnpm-debug.log
-npm-debug.log
-wp-cli.local.yml
-yarn-error.log
-
-# Runtime Data
-.cache
-*.pid
-*.pid.lock
-*.seed
-pids
-
-# Build
-*-performance-results.json
+# Build & Tests
 *.sql
-*.swp
 *.zip
-build-module/
-build-style/
-build-types/
 build/
 coverage/
 dist/
 
-# Project
+# Dependencies
 jspm_packages/
 node_modules/
-vendor/
 
 # Composer
-.phpunit.result.cache
 /tests/phpunit/build
 bin/composer/**/vendor/
-composer.lock
-contributors.html
-contributors.md
 lib/vendor/
 vendor/
-
-# Grunt
-.grunt
 
 # Sass
 .sass-cache/
@@ -70,23 +35,14 @@ vendor/
 # NPM
 .npm
 
-# Node
-package-lock.json
-
 # REPL
 .node_repl_history
-
-# TypeScript
-tsconfig.tsbuildinfo
 
 # node-waf
 .lock-wscript
 
 # Unit tests
 tmp/
-
-# Yarn
-yarn.lock
 
 # Test Results
 test-results.json
@@ -97,5 +53,5 @@ test-results.json
 *.patch
 *.rej
 
-# PHP lint
+# PHP Lint
 phpcs-report.xml
