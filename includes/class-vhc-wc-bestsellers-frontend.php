@@ -23,6 +23,8 @@ class VHC_WC_Bestsellers_Frontend {
 	 */
 	public function __construct() {
 		add_shortcode( 'vhc_wc_bestsellers', array( $this, 'bestsellers_shortcode' ) );
+		add_action( 'save_post', array( $this, 'delete_transient' ) );
+		add_action( 'delete_post', array( $this, 'delete_transient' ) );
 	}
 
 	/**
@@ -421,6 +423,20 @@ class VHC_WC_Bestsellers_Frontend {
 		wp_reset_postdata();
 
 		return ob_get_clean();
+	}
+
+	/**
+	 * Delete plugin transient on save and delete product/page.
+	 *
+	 * @since 1.0.2
+	 * @param int $post_id post ID.
+	 */
+	public function delete_transient( $post_id ) {
+		if ( $post_id > 0 ) {
+			if ( in_array( get_post_type( $post_id ), array( 'page', 'product' ), true ) ) {
+				delete_transient( 'vhcbs_query_products' );
+			}
+		}
 	}
 }
 
