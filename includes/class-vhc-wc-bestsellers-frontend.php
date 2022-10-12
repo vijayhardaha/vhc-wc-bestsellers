@@ -190,14 +190,14 @@ class VHC_WC_Bestsellers_Frontend {
 		}
 
 		if ( ! empty( $args['include'] ) && is_array( $args['include'] ) ) {
-			$include_ids = array_unique( array_filter( array_map( 'absint', (array) $args['include'] ) ) );
+			$include_ids = wp_parse_id_list( $args['include'] );
 			if ( ! empty( $include_ids ) ) {
 				$query_args['post__in'] = isset( $query_args['post__in'] ) ? array_merge( $query_args['post__in'], $include_ids ) : $include_ids;
 			}
 		}
 
 		if ( ! empty( $args['exclude'] ) && is_array( $args['exclude'] ) ) {
-			$exclude_ids = array_unique( array_filter( array_map( 'absint', (array) $args['exclude'] ) ) );
+			$exclude_ids = wp_parse_id_list( $args['exclude'] );
 			if ( ! empty( $exclude_ids ) ) {
 				$query_args['post__not_in'] = isset( $query_args['post__not_in'] ) ? array_merge( $query_args['post__not_in'], $exclude_ids ) : $exclude_ids;
 			}
