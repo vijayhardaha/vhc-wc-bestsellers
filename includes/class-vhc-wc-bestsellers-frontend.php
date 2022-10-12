@@ -390,9 +390,9 @@ class VHC_WC_Bestsellers_Frontend {
 			woocommerce_product_loop_start();
 
 			while ( $products->have_posts() ) {
+				$products->the_post();
 
 				wc_get_template_part( 'content', 'product' );
-
 			}
 
 			woocommerce_product_loop_end();
