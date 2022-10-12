@@ -118,6 +118,7 @@ class VHC_WC_Widget_Bestsellers extends WC_Widget {
 		wc_set_loop_prop( 'name', 'widget' );
 
 		$products = $this->get_products( $args, $instance );
+
 		if ( $products && $products->have_posts() ) {
 			$this->widget_start( $args, $instance );
 
