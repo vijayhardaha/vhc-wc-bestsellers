@@ -111,9 +111,6 @@ class VHC_WC_Bestsellers_Archive {
 
 			add_filter( 'woocommerce_is_filtered', array( $this, 'is_filtered' ), 99 ); // hack for displaying when Shop Page Display is set to show categories.
 
-			// Remove description.
-			remove_action( 'woocommerce_archive_description', 'woocommerce_product_archive_description', 10 );
-
 			// Fix page id for description function.
 			add_filter( 'woocommerce_shop_page_id_for_archive_description', array( $this, 'fix_page_id' ) );
 
