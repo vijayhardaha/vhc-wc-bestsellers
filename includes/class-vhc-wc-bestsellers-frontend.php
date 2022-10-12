@@ -375,13 +375,13 @@ class VHC_WC_Bestsellers_Frontend {
 			)
 		);
 
-		$query_args['return'] = 'products';
+		$query_args['return'] = 'query_objects';
 
-		$bs_products = $this->get_bestsellers( $query_args );
+		$products = $this->get_bestsellers( $query_args );
 
 		ob_start();
 
-		if ( $bs_products ) {
+		if ( $products && $products->have_posts() ) {
 			echo '<div class="woocommerce vhc-bestsellers">';
 
 			wc_set_loop_prop( 'name', 'bestsellers' );
@@ -389,11 +389,7 @@ class VHC_WC_Bestsellers_Frontend {
 
 			woocommerce_product_loop_start();
 
-			foreach ( $bs_products as $bs_product ) {
-
-				$post_object = get_post( $bs_product->get_id() );
-
-				setup_postdata( $GLOBALS['post'] =& $post_object ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited, Squiz.PHP.DisallowMultipleAssignments.Found
+			while ( $products->have_posts() ) {
 
 				wc_get_template_part( 'content', 'product' );
 
