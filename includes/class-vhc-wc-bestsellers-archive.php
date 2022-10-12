@@ -126,6 +126,7 @@ class VHC_WC_Bestsellers_Archive {
 	/**
 	 * Fix page ID for custom archive pages description.
 	 *
+	 * @since 1.0.1
 	 * @param int $page_id Page ID.
 	 */
 	public function fix_page_id( $page_id ) {
