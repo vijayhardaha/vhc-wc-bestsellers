@@ -224,7 +224,25 @@ class VHC_WC_Bestsellers_Frontend {
 			}
 		}
 
-		return get_posts( $query_args );
+		$transient_name = 'vhcbs_query_products';
+		$cache_args     = http_build_query( $query_args );
+
+		$transient   = get_transient( $transient_name );
+		$product_ids = $transient && isset( $transient[ $cache_args ] ) ? $transient[ $cache_args ] : false;
+
+		if ( false === $product_ids ) {
+			$product_ids = wp_parse_id_list( get_posts( $query_args ) );
+
+			if ( $transient ) {
+				$transient[ $cache_args ] = $product_ids;
+			} else {
+				$transient = array( $cache_args => $product_ids );
+			}
+
+			set_transient( $transient_name, $transient, DAY_IN_SECONDS );
+		}
+
+		return $product_ids;
 	}
 
 	/**
