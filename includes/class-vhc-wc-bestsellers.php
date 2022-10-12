@@ -358,6 +358,7 @@ final class VHC_WC_Bestsellers {
 		// Core classes.
 		include_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/class-vhc-wc-widget-bestsellers.php';
 		include_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/class-vhc-wc-bestsellers-admin.php';
+
 		$this->frontend = include_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/class-vhc-wc-bestsellers-frontend.php';
 		$this->archive  = include_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/class-vhc-wc-bestsellers-archive.php';
 	}
