@@ -17,16 +17,16 @@
  * @package VHC_WC_Bestsellers
  */
 
-// Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
-
-if ( ! function_exists( 'get_plugin_data' ) ) {
-	require_once ABSPATH . 'wp-admin/includes/plugin.php';
-}
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 if ( ! defined( 'VHC_WC_BESTSELLERS_PLUGIN_FILE' ) ) {
 	define( 'VHC_WC_BESTSELLERS_PLUGIN_FILE', __FILE__ );
 }
+
+define( 'VHC_WC_BESTSELLERS_VERSION', '1.0.2' );
+define( 'VHC_WC_BESTSELLERS_PLUGIN_NAME', 'VHC WooCommerce Bestsellers' );
+define( 'VHC_WC_BESTSELLERS_ABSPATH', dirname( VHC_WC_BESTSELLERS_PLUGIN_FILE ) . '/' );
+define( 'VHC_WC_BESTSELLERS_PLUGIN_BASENAME', plugin_basename( VHC_WC_BESTSELLERS_PLUGIN_FILE ) );
 
 // Include the main VHC_WC_Bestsellers class.
 if ( ! class_exists( 'VHC_WC_BESTSELLERS', false ) ) {

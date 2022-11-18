@@ -5,7 +5,7 @@
  * @package VHC_WC_Bestsellers
  */
 
-defined( 'ABSPATH' ) || die( 'Don\'t run this file directly!' );
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 if ( class_exists( 'VHC_WC_Bestsellers_Archive' ) ) {
 	return new VHC_WC_Bestsellers_Archive();
@@ -21,7 +21,7 @@ class VHC_WC_Bestsellers_Archive {
 	 *
 	 * @var int.
 	 */
-	public $page_id;
+	private static $page_id;
 
 	/**
 	 * Constructor
@@ -29,7 +29,7 @@ class VHC_WC_Bestsellers_Archive {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		$this->page_id = absint( wc_get_page_id( 'vhc_bestsellers' ) );
+		self::$page_id = absint( wc_get_page_id( 'vhc_bestsellers' ) );
 
 		if ( ! is_admin() ) {
 			add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ), 1 );
@@ -49,10 +49,10 @@ class VHC_WC_Bestsellers_Archive {
 	 * @since 1.0.0
 	 * @return bool
 	 */
-	public function is_page() {
+	public static function is_page() {
 		global $wp_query;
 
-		return ! is_admin() && $wp_query->is_vhcbs_archive && $this->page_id === $wp_query->queried_object_id;
+		return ! is_admin() && $wp_query->is_vhcbs_archive && self::$page_id === $wp_query->queried_object_id;
 	}
 
 	/**
@@ -66,7 +66,7 @@ class VHC_WC_Bestsellers_Archive {
 		$find = array( 'woocommerce.php' );
 		$file = '';
 
-		if ( is_page( $this->page_id ) ) {
+		if ( is_page( self::$page_id ) ) {
 			$file   = 'archive-product.php';
 			$find[] = $file;
 			$find[] = WC()->template_path() . $file;
@@ -93,7 +93,7 @@ class VHC_WC_Bestsellers_Archive {
 			return;
 		}
 
-		if ( isset( $q->queried_object_id ) && ! empty( $this->page_id ) && $q->queried_object_id === $this->page_id ) {
+		if ( isset( $q->queried_object_id ) && ! empty( self::$page_id ) && $q->queried_object_id === self::$page_id ) {
 			$q->set( 'post_type', 'product' );
 			$q->set( 'page', '' );
 			$q->set( 'pagename', '' );
@@ -130,8 +130,8 @@ class VHC_WC_Bestsellers_Archive {
 	 * @param int $page_id Page ID.
 	 */
 	public function fix_page_id( $page_id ) {
-		if ( $this->is_page() ) {
-			$page_id = $this->page_id;
+		if ( self::is_page() ) {
+			$page_id = self::$page_id;
 		}
 
 		return $page_id;
@@ -145,8 +145,8 @@ class VHC_WC_Bestsellers_Archive {
 	 * @return string
 	 */
 	public function page_title( $title ) {
-		if ( $this->is_page() ) {
-			$title = apply_filters( 'vhc_bestsellers_page_title', get_the_title( $this->page_id ) );
+		if ( self::is_page() ) {
+			$title = apply_filters( 'vhc_bestsellers_page_title', get_the_title( self::$page_id ) );
 		}
 
 		return $title;
@@ -160,9 +160,10 @@ class VHC_WC_Bestsellers_Archive {
 	 * @return array
 	 */
 	public function get_breadcrumb( $crumbs ) {
-		if ( $this->is_page() ) {
-			$crumbs[1] = array( get_the_title( $this->page_id ), get_permalink( $this->page_id ) );
+		if ( self::is_page() ) {
+			$crumbs[1] = array( get_the_title( self::$page_id ), get_permalink( self::$page_id ) );
 		}
+
 		return $crumbs;
 	}
 
@@ -185,11 +186,11 @@ class VHC_WC_Bestsellers_Archive {
 	 * @return string
 	 */
 	public function change_page_title( $title ) {
-		if ( ! $this->is_page() ) {
+		if ( ! self::is_page() ) {
 			return $title;
 		}
 
-		$title['title'] = get_the_title( $this->page_id );
+		$title['title'] = get_the_title( self::$page_id );
 
 		return $title;
 	}
@@ -225,7 +226,7 @@ class VHC_WC_Bestsellers_Archive {
 				}
 
 				// Set active state if this is the shop page link.
-				if ( absint( $this->page_id ) === absint( $menu_item->object_id ) && 'page' === $menu_item->object ) {
+				if ( absint( self::$page_id ) === absint( $menu_item->object_id ) && 'page' === $menu_item->object ) {
 					$menu_items[ $key ]->current = true;
 
 					$classes[] = 'current-menu-item';
@@ -247,7 +248,7 @@ class VHC_WC_Bestsellers_Archive {
 	 * @return string
 	 */
 	public function wpseo_metadesc() {
-		return WPSEO_Meta::get_value( 'metadesc', $this->page_id );
+		return WPSEO_Meta::get_value( 'metadesc', self::$page_id );
 	}
 
 	/**
@@ -258,7 +259,7 @@ class VHC_WC_Bestsellers_Archive {
 	 * @return string
 	 */
 	public function wpseo_metakey() {
-		return WPSEO_Meta::get_value( 'metakey', $this->page_id );
+		return WPSEO_Meta::get_value( 'metakey', self::$page_id );
 	}
 
 	/**
@@ -269,7 +270,7 @@ class VHC_WC_Bestsellers_Archive {
 	 * @return string
 	 */
 	public function wpseo_title() {
-		return WPSEO_Meta::get_value( 'title', $this->page_id );
+		return WPSEO_Meta::get_value( 'title', self::$page_id );
 	}
 
 	/**
@@ -279,7 +280,7 @@ class VHC_WC_Bestsellers_Archive {
 	 * @param object $q Query object.
 	 */
 	public function parse_query( $q ) {
-		if ( ! is_admin() && $q->is_main_query() && $this->is_page() ) {
+		if ( ! is_admin() && $q->is_main_query() && self::is_page() ) {
 			$args           = apply_filters( 'vhc_wc_bestsellers_archive_query_args', array() );
 			$bs_product_ids = vhc_wc_bestsellers()->get_bestsellers( $args );
 			$bs_product_ids = empty( $bs_product_ids ) ? array( 0 ) : (array) $bs_product_ids;
@@ -330,7 +331,7 @@ class VHC_WC_Bestsellers_Archive {
 	 * @return bool
 	 */
 	public function adjust_visibility( $visibility ) {
-		if ( $this->is_page() && 'yes' === get_option( 'woocommerce_vhc_bestsellers_show_hidden', 'no' ) ) {
+		if ( self::is_page() && 'yes' === get_option( 'woocommerce_vhc_bestsellers_show_hidden', 'no' ) ) {
 			return true;
 		}
 

@@ -5,7 +5,7 @@
  * @package VHC_WC_Bestsellers
  */
 
-defined( 'ABSPATH' ) || die( 'Don\'t run this file directly!' );
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
  * Main VHC_WC_Bestsellers Class.
@@ -37,27 +37,6 @@ final class VHC_WC_Bestsellers {
 	private $archive;
 
 	/**
-	 * Admin notices to add.
-	 *
-	 * @var array Array of admin notices.
-	 * @since 1.0.0
-	 */
-	private $notices = array();
-
-	/**
-	 * Required plugins to check.
-	 *
-	 * @var array Array of required plugins.
-	 * @since 1.0.0
-	 */
-	private $required_plugins = array(
-		'woocommerce/woocommerce.php' => array(
-			'url'  => 'https://wordpress.org/plugins/woocommerce/',
-			'name' => 'WooCommerce',
-		),
-	);
-
-	/**
 	 * Main VHC_WC_Bestsellers Instance.
 	 * Ensures only one instance of VHC_WC_Bestsellers is loaded or can be loaded.
 	 *
@@ -68,6 +47,7 @@ final class VHC_WC_Bestsellers {
 		if ( is_null( self::$instance ) ) {
 			self::$instance = new self();
 		}
+
 		return self::$instance;
 	}
 
@@ -77,38 +57,10 @@ final class VHC_WC_Bestsellers {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		$this->define_constants();
-
-		register_activation_hook( VHC_WC_BESTSELLERS_PLUGIN_FILE, array( $this, 'activation_check' ) );
-
 		register_shutdown_function( array( $this, 'log_errors' ) );
 
-		add_action( 'admin_init', array( $this, 'check_environment' ) );
-		add_action( 'admin_init', array( $this, 'add_plugin_notices' ) );
-		add_action( 'admin_notices', array( $this, 'admin_notices' ), 15 );
-
-		// If the environment check fails, initialize the plugin.
-		if ( $this->is_environment_compatible() ) {
-			add_action( 'plugins_loaded', array( $this, 'init_plugin' ) );
-		}
-	}
-
-	/**
-	 * Cloning instances is forbidden due to singleton pattern.
-	 *
-	 * @since 1.0.0
-	 */
-	public function __clone() {
-		_doing_it_wrong( __FUNCTION__, sprintf( 'You cannot clone instances of %s.', esc_html( get_class( $this ) ) ), '1.0.0' );
-	}
-
-	/**
-	 * Unserializing instances is forbidden due to singleton pattern.
-	 *
-	 * @since 1.0.0
-	 */
-	public function __wakeup() {
-		_doing_it_wrong( __FUNCTION__, sprintf( 'You cannot unserialize instances of %s.', esc_html( get_class( $this ) ) ), '1.0.0' );
+		add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
+		add_action( 'plugins_loaded', array( $this, 'init_plugin' ), 9 );
 	}
 
 	/**
@@ -127,240 +79,6 @@ final class VHC_WC_Bestsellers {
 				// phpcs:enable WordPress.PHP.DevelopmentFunctions
 			}
 		}
-	}
-
-	/**
-	 * Define WC Constants.
-	 *
-	 * @since 1.0.0
-	 */
-	private function define_constants() {
-		$plugin_data = get_plugin_data( VHC_WC_BESTSELLERS_PLUGIN_FILE );
-		$this->define( 'VHC_WC_BESTSELLERS_ABSPATH', dirname( VHC_WC_BESTSELLERS_PLUGIN_FILE ) . '/' );
-		$this->define( 'VHC_WC_BESTSELLERS_PLUGIN_BASENAME', plugin_basename( VHC_WC_BESTSELLERS_PLUGIN_FILE ) );
-		$this->define( 'VHC_WC_BESTSELLERS_PLUGIN_NAME', $plugin_data['Name'] );
-		$this->define( 'VHC_WC_BESTSELLERS_VERSION', $plugin_data['Version'] );
-		$this->define( 'VHC_WC_BESTSELLERS_MIN_PHP_VERSION', $plugin_data['RequiresPHP'] );
-		$this->define( 'VHC_WC_BESTSELLERS_MIN_WP_VERSION', $plugin_data['RequiresWP'] );
-	}
-
-	/**
-	 * Define constant if not already set.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string      $name     Constant name.
-	 * @param string|bool $value    Constant value.
-	 */
-	private function define( $name, $value ) {
-		if ( ! defined( $name ) ) {
-			define( $name, $value );
-		}
-	}
-
-	/**
-	 * Checks the server environment and other factors and deactivates plugins as necessary.
-	 *
-	 * @link http://wptavern.com/how-to-prevent-wordpress-plugins-from-activating-on-sites-with-incompatible-hosting-environments
-	 * @since 1.0.0
-	 */
-	public function activation_check() {
-		if ( ! $this->is_environment_compatible() ) {
-			$this->deactivate_plugin();
-			wp_die(
-				sprintf(
-					/* translators: 1: Plugin Name 2: Incompatible Environment Message */
-					esc_html__( '%1$s could not be activated. %2$s', 'vhc-wc-bestsellers' ),
-					esc_html( VHC_WC_BESTSELLERS_PLUGIN_NAME ),
-					esc_html( $this->get_environment_message() )
-				)
-			);
-		}
-	}
-
-	/**
-	 * Checks the environment on loading WordPress, just in case the environment changes after activation.
-	 *
-	 * @since 1.0.0
-	 */
-	public function check_environment() {
-		if ( ! $this->is_environment_compatible() && is_plugin_active( VHC_WC_BESTSELLERS_PLUGIN_BASENAME ) ) {
-			$this->deactivate_plugin();
-			$this->add_admin_notice(
-				'bad_environment',
-				'error',
-				sprintf(
-					/* translators: 1: Plugin Name 2: Incompatible Environment Message */
-					__( '%1$s has been deactivated. %2$s', 'vhc-wc-bestsellers' ),
-					esc_html( VHC_WC_BESTSELLERS_PLUGIN_NAME ),
-					esc_html( $this->get_environment_message() )
-				)
-			);
-		}
-	}
-
-	/**
-	 * Adds notices for out-of-date WordPress and/or WooCommerce versions.
-	 *
-	 * @since 1.0.0
-	 */
-	public function add_plugin_notices() {
-		if ( ! $this->is_wp_compatible() ) {
-			$this->add_admin_notice(
-				'update_wordpress',
-				'error',
-				sprintf(
-					/* translators: 1: Plugin Name 2: Minimum WP Version 3: Update Url 4: Close Anchor Tag */
-					__( '%1$s requires WordPress version %2$s or higher. Please %3$supdate WordPress &raquo;%4$s', 'vhc-wc-bestsellers' ),
-					VHC_WC_BESTSELLERS_PLUGIN_NAME,
-					VHC_WC_BESTSELLERS_MIN_WP_VERSION,
-					'<a href="' . esc_url( admin_url( 'update-core.php' ) ) . '">',
-					'</a>'
-				)
-			);
-		}
-
-		$missing_dependencies = $this->missing_dependencies();
-		if ( ! empty( $missing_dependencies ) ) {
-			$this->add_admin_notice(
-				'install_required_plugins',
-				'error',
-				sprintf(
-					/* translators: 1: Plugin Name 2: Required Plugins Names */
-					__( '%1$s  is enabled but not effective. It requires %2$s in order to work.', 'vhc-wc-bestsellers' ),
-					VHC_WC_BESTSELLERS_PLUGIN_NAME,
-					join( ', ', $missing_dependencies )
-				)
-			);
-		}
-	}
-
-	/**
-	 * Determines if the required plugins are compatible.
-	 *
-	 * @since 1.0.0
-	 * @return bool
-	 */
-	private function plugins_compatible() {
-		return $this->is_wp_compatible() && empty( $this->missing_dependencies() );
-	}
-
-	/**
-	 * Find the missing dependency plugins names.
-	 *
-	 * @since 1.0.0
-	 * @return Array
-	 */
-	private function missing_dependencies() {
-		$missing_dependencies = array();
-		if ( empty( $this->required_plugins ) ) {
-			return $missing_dependencies;
-		}
-
-		foreach ( $this->required_plugins as $plugin_base => $plugin ) {
-			if ( ! is_plugin_active( $plugin_base ) ) {
-				$missing_dependencies[] = sprintf( '<a href="%1$s" target="_blank">%2$s</a>', esc_url( $plugin['url'] ), $plugin['name'] );
-			}
-		}
-
-		return $missing_dependencies;
-	}
-
-	/**
-	 * Determines if the WordPress compatible.
-	 *
-	 * @since 1.0.0
-	 * @return bool
-	 */
-	private function is_wp_compatible() {
-		if ( ! VHC_WC_BESTSELLERS_MIN_WP_VERSION ) {
-			return true;
-		}
-		return version_compare( get_bloginfo( 'version' ), VHC_WC_BESTSELLERS_MIN_WP_VERSION, '>=' );
-	}
-
-	/**
-	 * Deactivates the plugin.
-	 *
-	 * @since 1.0.0
-	 */
-	protected function deactivate_plugin() {
-		deactivate_plugins( VHC_WC_BESTSELLERS_PLUGIN_FILE );
-
-		if ( isset( $_GET['activate'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			unset( $_GET['activate'] ); // phpcs:ignore WordPress.Security.NonceVerification
-		}
-	}
-
-	/**
-	 * Adds an admin notice to be displayed.
-	 *
-	 * @since 1.0.0
-	 * @param string $slug      The slug for the notice.
-	 * @param string $class     The css class for the notice.
-	 * @param string $message   The notice message.
-	 */
-	private function add_admin_notice( $slug, $class, $message ) {
-		$this->notices[ $slug ] = array(
-			'class'   => $class,
-			'message' => $message,
-		);
-	}
-
-	/**
-	 * Displays any admin notices added with VHC_WC_Bestsellers::add_admin_notice()
-	 *
-	 * @since 1.0.0
-	 */
-	public function admin_notices() {
-		foreach ( (array) $this->notices as $notice_key => $notice ) {
-			?>
-			<div class="<?php echo esc_attr( $notice['class'] ); ?>">
-				<p><?php echo wp_kses( $notice['message'], array( 'strong' => array(), 'a' => array( 'href' => array(), 'target' => array() ) ) ); // @codingStandardsIgnoreLine ?></p>
-			</div>
-			<?php
-		}
-	}
-
-	/**
-	 * Determines if the server environment is compatible with this plugin.
-	 *
-	 * Override this method to add checks for more than just the PHP version.
-	 *
-	 * @since 1.0.0
-	 * @return bool
-	 */
-	private function is_environment_compatible() {
-		return version_compare( phpversion(), VHC_WC_BESTSELLERS_MIN_PHP_VERSION, '>=' );
-	}
-
-	/**
-	 * Gets the message for display when the environment is incompatible with this plugin.
-	 *
-	 * @since 1.0.0
-	 * @return string
-	 */
-	private function get_environment_message() {
-		return sprintf(
-			/* translators: 1: Minimum PHP Version 2: Current PHP Version */
-			__( 'The minimum PHP version required for this plugin is %1$s. You are running %2$s.', 'vhc-wc-bestsellers' ),
-			VHC_WC_BESTSELLERS_MIN_PHP_VERSION,
-			phpversion()
-		);
-	}
-
-	/**
-	 * Include required core files used in admin and on the frontend.
-	 *
-	 * @since 1.0.0
-	 */
-	public function includes() {
-		// Core classes.
-		include_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/class-vhc-wc-widget-bestsellers.php';
-		include_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/class-vhc-wc-bestsellers-admin.php';
-
-		$this->frontend = include_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/class-vhc-wc-bestsellers-frontend.php';
-		$this->archive  = include_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/class-vhc-wc-bestsellers-archive.php';
 	}
 
 	/**
@@ -394,21 +112,72 @@ final class VHC_WC_Bestsellers {
 	 * @since 1.0.0
 	 */
 	public function init_plugin() {
-		if ( ! $this->plugins_compatible() ) {
+		if ( $this->is_woocommerce_activated() === false ) {
+			add_action( 'admin_notices', array( $this, 'required_woocommerce_notice' ) );
 			return;
 		}
 
-		// Include required files.
+		if ( version_compare( PHP_VERSION, '7.1', '<' ) ) {
+			add_action( 'admin_notices', array( $this, 'required_php_version_notice' ) );
+		}
+
+		// all systems ready - GO!
 		$this->includes();
+	}
 
-		// Before init action.
-		do_action( 'before_vhc_wc_bestsellers_init' );
+	/**
+	 * Include required core files used in admin and on the frontend.
+	 *
+	 * @since 1.0.0
+	 */
+	public function includes() {
+		// Core classes.
+		include_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/class-vhc-wc-widget-bestsellers.php';
+		include_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/class-vhc-wc-bestsellers-admin.php';
 
-		// Set up localisation.
-		$this->load_plugin_textdomain();
+		$this->frontend = include_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/class-vhc-wc-bestsellers-frontend.php';
+		$this->archive  = include_once VHC_WC_BESTSELLERS_ABSPATH . 'includes/class-vhc-wc-bestsellers-archive.php';
+	}
 
-		// Init action.
-		do_action( 'vhc_wc_bestsellers_init' );
+	/**
+	 * Check if woocommerce is activated
+	 */
+	public function is_woocommerce_activated() {
+		$blog_plugins = get_option( 'active_plugins', array() );
+		$site_plugins = is_multisite() ? (array) maybe_unserialize( get_site_option( 'active_sitewide_plugins' ) ) : array();
+
+		if ( in_array( 'woocommerce/woocommerce.php', $blog_plugins, true ) || isset( $site_plugins['woocommerce/woocommerce.php'] ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * WooCommerce not active notice.
+	 *
+	 * @return void
+	 */
+	public function required_woocommerce_notice() {
+		/* translators: <a> tags */
+		$error = sprintf( esc_html__( 'VHC WooCommerce Bestsellers requires %1$sWooCommerce%2$s to be installed & activated!', 'vhc-wc-bestsellers' ), '<a href="http://wordpress.org/extend/plugins/woocommerce/">', '</a>' );
+
+		$message = '<div class="error"><p>' . $error . '</p></div>';
+
+		echo wp_kses_post( $message );
+	}
+
+	/**
+	 * PHP version requirement notice
+	 */
+	public function required_php_version_notice() {
+		$error_message = __( 'VHC WooCommerce Bestsellers requires PHP 7.1 (7.4 or higher recommended). We strongly recommend to update your PHP version.', 'vhc-wc-bestsellers' );
+
+		$message  = '<div class="error">';
+		$message .= sprintf( '<p>%s</p>', $error_message );
+		$message .= '</div>';
+
+		echo wp_kses_post( $message );
 	}
 
 	/**
@@ -439,7 +208,7 @@ final class VHC_WC_Bestsellers {
 	 * @return array
 	 */
 	public function get_bestsellers( $args = array() ) {
-		return $this->frontend->get_bestsellers( $args );
+		return class_exists( 'VHC_WC_Bestsellers_Frontend' ) ? VHC_WC_Bestsellers_Frontend::get_bestsellers( $args ) : false;
 	}
 
 	/**
@@ -449,6 +218,6 @@ final class VHC_WC_Bestsellers {
 	 * @return bool
 	 */
 	public function is_archive() {
-		return $this->archive && $this->archive->is_page();
+		return class_exists( 'VHC_WC_Bestsellers_Archive' ) ? VHC_WC_Bestsellers_Archive::is_page() : false;
 	}
 }

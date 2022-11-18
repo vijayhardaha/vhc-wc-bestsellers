@@ -5,7 +5,7 @@
  * @package VHC_WC_Bestsellers
  */
 
-defined( 'ABSPATH' ) || die( 'Don\'t run this file directly!' );
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 if ( class_exists( 'VHC_WC_Bestsellers_Frontend' ) ) {
 	return new VHC_WC_Bestsellers_Frontend();
@@ -22,9 +22,10 @@ class VHC_WC_Bestsellers_Frontend {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		add_shortcode( 'vhc_wc_bestsellers', array( $this, 'bestsellers_shortcode' ) );
-		add_action( 'save_post', array( $this, 'delete_transient' ) );
-		add_action( 'delete_post', array( $this, 'delete_transient' ) );
+		add_shortcode( 'vhc_wc_bestsellers', array( __CLASS__, 'bestsellers_shortcode' ) );
+
+		add_action( 'save_post', array( __CLASS__, 'delete_transient' ) );
+		add_action( 'delete_post', array( __CLASS__, 'delete_transient' ) );
 	}
 
 	/**
@@ -34,7 +35,7 @@ class VHC_WC_Bestsellers_Frontend {
 	 * @param array $args Report args.
 	 * @return array
 	 */
-	private function parse_args( $args ) {
+	private static function parse_args( $args ) {
 		$default_args = array(
 			'period'            => get_option( 'woocommerce_vhc_bestsellers_sales_period', 'all' ),
 			'limit'             => get_option( 'woocommerce_vhc_bestsellers_limit', 100 ),
@@ -63,7 +64,7 @@ class VHC_WC_Bestsellers_Frontend {
 	 * @param string $period Period range.
 	 * @return array.
 	 */
-	private function calculate_range( $period = '' ) {
+	private static function calculate_range( $period = '' ) {
 		$one_day  = DAY_IN_SECONDS;
 		$midnight = strtotime( 'today midnight' );
 		$end_date = $midnight + $one_day - 1;
@@ -134,7 +135,7 @@ class VHC_WC_Bestsellers_Frontend {
 	 * @param array $args Arguments for product query.
 	 * @return array
 	 */
-	private function query_products( $args = array() ) {
+	private static function query_products( $args = array() ) {
 		$query_args = array(
 			'fields'      => 'ids',
 			'nopaging'    => true,
@@ -254,17 +255,17 @@ class VHC_WC_Bestsellers_Frontend {
 	 * @param array $args Arguments array.
 	 * @return array
 	 */
-	public function get_bestsellers( $args = array() ) {
+	public static function get_bestsellers( $args = array() ) {
 		global $wpdb;
 
 		$filter_range = false;
-		$args         = $this->parse_args( $args );
+		$args         = self::parse_args( $args );
 		$range        = empty( $args['period'] ) ? 'all' : sanitize_text_field( $args['period'] );
 
 		// Check if range is not all time.
 		if ( 'all' !== $range ) {
 			// Calulate start and end date from range type.
-			$range_args = $this->calculate_range( $range );
+			$range_args = self::calculate_range( $range );
 
 			// If start or end date is empty then return false and do nothing.
 			if ( empty( $range_args['start'] ) || empty( $range_args['end'] ) ) {
@@ -276,7 +277,7 @@ class VHC_WC_Bestsellers_Frontend {
 		}
 
 		// Get queried product ids.
-		$product_ids = $this->query_products( $args );
+		$product_ids = self::query_products( $args );
 
 		// If queried products ids are empty and fallback is not true then do nothing.
 		if ( empty( $product_ids ) && empty( $args['fallback'] ) ) {
@@ -373,7 +374,7 @@ class VHC_WC_Bestsellers_Frontend {
 	 * @param array $atts Shortcode attributes.
 	 * @return string Shortcode output.
 	 */
-	public function bestsellers_shortcode( $atts ) {
+	public static function bestsellers_shortcode( $atts ) {
 		$atts = shortcode_atts(
 			apply_filters(
 				'vhc_wc_bestsellers_shortcode_atts',
@@ -397,7 +398,7 @@ class VHC_WC_Bestsellers_Frontend {
 
 		$query_args['return'] = 'query_objects';
 
-		$products = $this->get_bestsellers( $query_args );
+		$products = self::get_bestsellers( $query_args );
 
 		ob_start();
 
@@ -431,7 +432,7 @@ class VHC_WC_Bestsellers_Frontend {
 	 * @since 1.0.2
 	 * @param int $post_id post ID.
 	 */
-	public function delete_transient( $post_id ) {
+	public static function delete_transient( $post_id ) {
 		if ( $post_id > 0 ) {
 			if ( in_array( get_post_type( $post_id ), array( 'page', 'product' ), true ) ) {
 				delete_transient( 'vhcbs_query_products' );

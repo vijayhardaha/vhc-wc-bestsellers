@@ -5,7 +5,7 @@
  * @package VHC_WC_Bestsellers
  */
 
-defined( 'ABSPATH' ) || die( 'Don\'t run this file directly!' );
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 if ( class_exists( 'VHC_WC_Bestsellers_Admin' ) ) {
 	return new VHC_WC_Bestsellers_Admin();
@@ -101,6 +101,7 @@ class VHC_WC_Bestsellers_Admin {
 	 */
 	public static function add_setting_setion( $sections ) {
 		$sections['vhc-bestsellers'] = __( 'VHC Bestsellers', 'vhc-wc-bestsellers' );
+
 		return $sections;
 	}
 

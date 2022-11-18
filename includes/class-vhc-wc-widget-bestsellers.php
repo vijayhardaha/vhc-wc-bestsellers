@@ -5,7 +5,7 @@
  * @package VHC_WC_Bestsellers
  */
 
-defined( 'ABSPATH' ) || die( 'Don\'t run this file directly!' );
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
  * Widget bestsellers products.
