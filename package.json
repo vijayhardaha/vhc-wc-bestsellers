@@ -8,7 +8,7 @@
 		"lint": "composer run-script lint",
 		"fix": "composer run-script lint-fix",
 		"prezip": "rm -rf vhc-wc-bestsellers.zip",
-		"zip": "zip -r vhc-wc-bestsellers.zip ./*.php includes languages '**/.DS_Store'",
+		"zip": "zip -r vhc-wc-bestsellers.zip ./*.php includes languages -x '**/.DS_Store'",
 		"makepot": "wp i18n make-pot . --exclude=\"node_modules,vendor\" --slug=vhc-wc-bestsellers"
 	}
 }
