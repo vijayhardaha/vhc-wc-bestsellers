@@ -52,6 +52,11 @@ class VHC_WC_Bestsellers_Archive {
 	public static function is_page() {
 		global $wp_query;
 
+		if ( ! isset( $wp_query ) ) {
+			_doing_it_wrong( __FUNCTION__, esc_html__( 'Conditional query tags do not work before the query is run. Before then, they always return false.', 'vhc-wc-bestsellers' ), '1.1.0' );
+			return false;
+		}
+
 		return ! is_admin() && $wp_query->is_vhcbs_archive && self::$page_id === $wp_query->queried_object_id;
 	}
 
@@ -119,6 +124,14 @@ class VHC_WC_Bestsellers_Archive {
 				add_filter( 'wpseo_metadesc', array( $this, 'wpseo_metadesc' ) );
 				add_filter( 'wpseo_metakey', array( $this, 'wpseo_metakey' ) );
 				add_filter( 'wpseo_title', array( $this, 'wpseo_title' ) );
+			}
+
+			// Fix Rank Math SEO.
+			if ( class_exists( 'RankMath' ) ) {
+				add_filter( 'rank_math/pre_simple_page_id', array( $this, 'fix_page_id' ) );
+				add_filter( 'rank_math/frontend/title', array( $this, 'rankmathseo_title' ) );
+				add_filter( 'rank_math/frontend/description', array( $this, 'rankmathseo_description' ) );
+				add_filter( 'rank_math/frontend/keywords', array( $this, 'rankmathseo_keywords' ) );
 			}
 		}
 	}
@@ -241,6 +254,17 @@ class VHC_WC_Bestsellers_Archive {
 	}
 
 	/**
+	 * WP SEO title.
+	 * Hooked into wpseo_ hook already, so no need for function_exist.
+	 *
+	 * @since 1.0.0
+	 * @return string
+	 */
+	public function wpseo_title() {
+		return WPSEO_Meta::get_value( 'title', self::$page_id );
+	}
+
+	/**
 	 * WP SEO meta description.
 	 * Hooked into wpseo_ hook already, so no need for function_exist.
 	 *
@@ -263,14 +287,64 @@ class VHC_WC_Bestsellers_Archive {
 	}
 
 	/**
-	 * WP SEO title.
-	 * Hooked into wpseo_ hook already, so no need for function_exist.
+	 * Customize Rank Math SEO Title.
 	 *
-	 * @since 1.0.0
+	 * @param string $title The default SEO title.
 	 * @return string
 	 */
-	public function wpseo_title() {
-		return WPSEO_Meta::get_value( 'title', self::$page_id );
+	public function rankmathseo_title( $title ) {
+		global $wp_query;
+
+		// Get the SEO title using Rank Math helper function.
+		$title = RankMath\Post::get_meta( 'title', absint( $wp_query->queried_object_id ) );
+
+		if ( ! $title ) {
+			$post  = get_post( absint( $wp_query->queried_object_id ) );
+			$title = RankMath\Helper::get_settings( "titles.pt_{$post->post_type}_title" );
+			if ( $title ) {
+				return RankMath\Helper::replace_vars( $title, $post );
+			}
+		}
+
+		return $title;
+	}
+
+	/**
+	 * Customize Rank Math SEO Description.
+	 *
+	 * @param string $description The default SEO description.
+	 * @return string
+	 */
+	public function rankmathseo_description( $description ) {
+		global $wp_query;
+
+		// Get the SEO description using Rank Math helper function.
+		$description = RankMath\Post::get_meta( 'description', absint( $wp_query->queried_object_id ) );
+
+		if ( ! $description ) {
+			$post        = get_post( absint( $wp_query->queried_object_id ) );
+			$description = RankMath\Helper::get_settings( "titles.pt_{$post->post_type}_description" );
+			if ( $description ) {
+				return RankMath\Helper::replace_vars( $description, $post );
+			}
+		}
+
+		return $description;
+	}
+
+	/**
+	 * Customize Rank Math SEO Meta Keywords.
+	 *
+	 * @param string $keywords The default SEO meta keywords.
+	 * @return string
+	 */
+	public function rankmathseo_keywords( $keywords ) {
+		global $wp_query;
+
+		// Get the SEO meta keywords using Rank Math helper function.
+		$keywords = RankMath\Post::get_meta( 'keywords', absint( $wp_query->queried_object_id ) );
+
+		return $keywords;
 	}
 
 	/**
