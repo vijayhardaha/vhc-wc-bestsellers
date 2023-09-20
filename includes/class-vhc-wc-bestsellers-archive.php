@@ -257,33 +257,36 @@ class VHC_WC_Bestsellers_Archive {
 	 * WP SEO title.
 	 * Hooked into wpseo_ hook already, so no need for function_exist.
 	 *
-	 * @since 1.0.0
 	 * @return string
 	 */
 	public function wpseo_title() {
-		return WPSEO_Meta::get_value( 'title', self::$page_id );
+		global $wp_query;
+
+		return WPSEO_Meta::get_value( 'title', absint( $wp_query->queried_object_id ) );
 	}
 
 	/**
 	 * WP SEO meta description.
 	 * Hooked into wpseo_ hook already, so no need for function_exist.
 	 *
-	 * @since 1.0.0
 	 * @return string
 	 */
 	public function wpseo_metadesc() {
-		return WPSEO_Meta::get_value( 'metadesc', self::$page_id );
+		global $wp_query;
+
+		return WPSEO_Meta::get_value( 'metadesc', absint( $wp_query->queried_object_id ) );
 	}
 
 	/**
 	 * WP SEO meta key.
 	 * Hooked into wpseo_ hook already, so no need for function_exist.
 	 *
-	 * @since 1.0.0
 	 * @return string
 	 */
 	public function wpseo_metakey() {
-		return WPSEO_Meta::get_value( 'metakey', self::$page_id );
+		global $wp_query;
+
+		return WPSEO_Meta::get_value( 'metakey', absint( $wp_query->queried_object_id ) );
 	}
 
 	/**
@@ -299,10 +302,10 @@ class VHC_WC_Bestsellers_Archive {
 		$title = RankMath\Post::get_meta( 'title', absint( $wp_query->queried_object_id ) );
 
 		if ( ! $title ) {
-			$post  = get_post( absint( $wp_query->queried_object_id ) );
-			$title = RankMath\Helper::get_settings( "titles.pt_{$post->post_type}_title" );
-			if ( $title ) {
-				return RankMath\Helper::replace_vars( $title, $post );
+			$post          = get_post( absint( $wp_query->queried_object_id ) );
+			$title_setting = RankMath\Helper::get_settings( "titles.pt_{$post->post_type}_title" );
+			if ( $title_setting ) {
+				$title = RankMath\Helper::replace_vars( $title_setting, $post );
 			}
 		}
 
@@ -322,10 +325,10 @@ class VHC_WC_Bestsellers_Archive {
 		$description = RankMath\Post::get_meta( 'description', absint( $wp_query->queried_object_id ) );
 
 		if ( ! $description ) {
-			$post        = get_post( absint( $wp_query->queried_object_id ) );
-			$description = RankMath\Helper::get_settings( "titles.pt_{$post->post_type}_description" );
-			if ( $description ) {
-				return RankMath\Helper::replace_vars( $description, $post );
+			$post                = get_post( absint( $wp_query->queried_object_id ) );
+			$description_setting = RankMath\Helper::get_settings( "titles.pt_{$post->post_type}_description" );
+			if ( $description_setting ) {
+				$description = RankMath\Helper::replace_vars( $description_setting, $post );
 			}
 		}
 
