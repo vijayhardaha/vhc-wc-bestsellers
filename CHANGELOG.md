@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Version 1.1.1 - September 20, 2023
+
+- Improved the RankMath SEO title and description filter callback logic for better code organization and future-proofing. This enhancement involved creating new variables, `$description_setting` and `$title_setting`, to store settings data, replacing the direct use of `$description` and `$title`. This change enhances code clarity and reduces the risk of potential issues in the future.
+
 ## Version 1.1.0 - September 17, 2023
 
 - Resolved an issue with RankMath SEO for the bestseller page.
