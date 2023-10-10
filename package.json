@@ -1,9 +1,17 @@
 {
 	"name": "vhc-wc-bestsellers",
 	"version": "1.1.1",
+	"description": "Display best sellers products of your store from a specific time period. You can show them on a Best Sellers page, shortcode or through a widget. You can also customize many things with WordPress hooks.",
 	"license": "GPLv2+",
 	"author": "Vijay Hardaha <https://twitter.com/vijayhardaha>",
 	"homepage": "https://github.com/vijayhardaha/vhc-wc-bestsellers#readme",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/vijayhardaha/vhc-wc-bestsellers.git"
+	},
+	"bugs": {
+		"url": "https://github.com/vijayhardaha/vhc-wc-bestsellers/issues"
+	},
 	"scripts": {
 		"lint": "composer run-script lint",
 		"fix": "composer run-script lint-fix",
