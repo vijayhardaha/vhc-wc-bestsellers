@@ -49,7 +49,7 @@ class VHC_WC_Bestsellers_Admin {
 			admin_url( 'admin.php' )
 		);
 
-		$actions['settings'] = '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Settings', 'vhc-wc-bestsellers' ) . '</a>';
+		array_unshift( $actions, '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Settings', 'vhc-wc-bestsellers' ) . '</a>' );
 
 		return $actions;
 	}
