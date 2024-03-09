@@ -1,36 +1,41 @@
-# Copyright (C) 2023 Vijay Hardaha
+# Copyright (C) 2024 Vijay Hardaha
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: VHC WooCommerce Bestsellers 1.1.1\n"
+"Project-Id-Version: VHC WooCommerce Bestsellers 1.1.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/vhc-wc-bestsellers\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-09-20T05:13:01+00:00\n"
+"POT-Creation-Date: 2024-03-09T07:48:27+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.8.1\n"
+"X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: vhc-wc-bestsellers\n"
 
 #. Plugin Name of the plugin
+#: vhc-wc-bestsellers.php
 msgid "VHC WooCommerce Bestsellers"
 msgstr ""
 
 #. Plugin URI of the plugin
+#: vhc-wc-bestsellers.php
 msgid "https://github.com/vijayhardaha/vhc-wc-bestsellers/"
 msgstr ""
 
 #. Description of the plugin
+#: vhc-wc-bestsellers.php
 msgid "Displays your store's bestselling products from a specific period of time. These can be displayed through a Best Sellers page or a shortcode/widget."
 msgstr ""
 
 #. Author of the plugin
+#: vhc-wc-bestsellers.php
 msgid "Vijay Hardaha"
 msgstr ""
 
 #. Author URI of the plugin
+#: vhc-wc-bestsellers.php
 msgid "https://twitter.com/vijayhardaha/"
 msgstr ""
 

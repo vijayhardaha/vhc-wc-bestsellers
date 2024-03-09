@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version 1.1.2 - Mar 09, 2024
+
+- Move plugin action link before the deactivate link.
+- Write license name in valid SPDX expression.
+- Bump dependencies to the latest versions.
+
 ## Version 1.1.1 - Sep 20, 2023
 
 - Improved the RankMath SEO title and description filter callback logic for better code organization and future-proofing. This enhancement involved creating new variables, `$description_setting` and `$title_setting`, to store settings data, replacing the direct use of `$description` and `$title`. This change enhances code clarity and reduces the risk of potential issues in the future.
